@@ -16,6 +16,7 @@ import {
   ArrowRight,
   ChevronRight,
   Handshake,
+  Star,
 } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
@@ -55,8 +56,7 @@ const problemPoints = [
   "Résultat : charge mentale, perte de temps et stress inutile.",
 ];
 
-const solutionLines = [
-  "ProxyZen BTP vous accompagne dans la gestion de votre administratif de façon claire, structurée et régulière.",
+const solutionHighlights = [
   "Vous gardez le contrôle.",
   "Je m’occupe du suivi.",
   "Un cadre fiable, sans pression, pensé pour votre réalité terrain.",
@@ -68,6 +68,24 @@ const services = [
   { icon: FolderOpen, label: "Organisation et classement des documents" },
   { icon: Users, label: "Relances clients" },
   { icon: Calculator, label: "Interface avec le cabinet comptable" },
+];
+
+const offersPreview = [
+  {
+    title: "Essentielle",
+    desc: "Pour artisans et petites structures BTP",
+    accent: false,
+  },
+  {
+    title: "Confort",
+    desc: "Offre recommandée pour un suivi fluide avec le cabinet comptable",
+    accent: true,
+  },
+  {
+    title: "Premium",
+    desc: "Pour les TPE/PME du BTP ayant un volume administratif important",
+    accent: false,
+  },
 ];
 
 const audiences = [
@@ -168,7 +186,7 @@ const Index = () => {
                 className="text-base px-8 text-primary-foreground hover:bg-primary-foreground/10 border border-primary-foreground/20"
               >
                 <Link to="/accompagnement">
-                  👉 Contactez-moi pour en discuter simplement.
+                  Contactez-moi pour en discuter simplement.
                 </Link>
               </Button>
             </div>
@@ -230,7 +248,7 @@ const Index = () => {
       <section className="section-padding bg-card">
         <div className="container">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-12"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -242,24 +260,49 @@ const Index = () => {
           </motion.div>
 
           <motion.div
-            className="max-w-4xl mx-auto p-8 md:p-10 rounded-3xl bg-background border border-border/60 shadow-sm space-y-4"
+            className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={stagger}
           >
-            {solutionLines.map((line, i) => (
-              <motion.div
-                key={i}
-                className="flex items-start gap-3"
-                variants={fadeUp}
-              >
-                <ChevronRight className="text-primary mt-1 shrink-0" size={18} />
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                  {line}
-                </p>
-              </motion.div>
-            ))}
+            <motion.div
+              className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-background to-background p-7 md:p-9 shadow-sm"
+              variants={fadeUp}
+            >
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide bg-primary/15 text-primary mb-5">
+                <Star size={14} />
+                Accompagnement clair
+              </span>
+              <p className="text-base md:text-lg leading-relaxed text-foreground">
+                ProxyZen BTP vous accompagne dans la gestion de votre
+                administratif de façon claire, structurée et régulière.
+              </p>
+            </motion.div>
+
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+              variants={stagger}
+            >
+              {solutionHighlights.map((line, i) => (
+                <motion.div
+                  key={line}
+                  className={`rounded-2xl border border-border/60 bg-background p-5 shadow-sm ${
+                    i === 2 ? "sm:col-span-2" : ""
+                  }`}
+                  variants={scaleIn}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                      <ChevronRight size={16} />
+                    </div>
+                    <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
+                      {line}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -285,9 +328,9 @@ const Index = () => {
             viewport={{ once: true, margin: "-50px" }}
             variants={stagger}
           >
-            {services.map((service, i) => (
+            {services.map((service) => (
               <motion.div
-                key={i}
+                key={service.label}
                 className="group relative flex flex-col items-center text-center p-8 rounded-2xl bg-card border border-border/60 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                 variants={scaleIn}
               >
@@ -297,6 +340,81 @@ const Index = () => {
                 <span className="font-heading font-bold text-sm leading-relaxed">
                   {service.label}
                 </span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="section-padding bg-card">
+        <div className="container">
+          <motion.div
+            className="text-center mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <span className="text-sm font-semibold text-accent uppercase tracking-widest mb-3 block">
+              Formules
+            </span>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold mb-4">
+              Nos offres
+            </h2>
+            <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Chaque entreprise ayant des besoins différents, nos
+              accompagnements sont personnalisés, sans forfait unique imposé.
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+          >
+            {offersPreview.map((offer) => (
+              <motion.div
+                key={offer.title}
+                className={`relative p-7 rounded-2xl border transition-all duration-300 hover:-translate-y-1 ${
+                  offer.accent
+                    ? "bg-primary text-primary-foreground border-primary shadow-2xl shadow-primary/20"
+                    : "bg-background border-border/60 hover:border-primary/30 hover:shadow-md"
+                }`}
+                variants={scaleIn}
+              >
+                {offer.accent ? (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-bold uppercase tracking-wider">
+                    Recommandée
+                  </span>
+                ) : null}
+                <h3
+                  className={`text-xl font-heading font-extrabold mb-3 ${
+                    offer.accent ? "" : "text-primary"
+                  }`}
+                >
+                  {offer.title}
+                </h3>
+                <p
+                  className={`text-sm leading-relaxed mb-7 ${
+                    offer.accent
+                      ? "text-primary-foreground/85"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {offer.desc}
+                </p>
+                <Button
+                  asChild
+                  variant={offer.accent ? "secondary" : "outline"}
+                  className="w-full"
+                >
+                  <Link to="/offres">
+                    Voir les offres
+                    <ArrowRight className="ml-2" size={16} />
+                  </Link>
+                </Button>
               </motion.div>
             ))}
           </motion.div>
@@ -324,9 +442,9 @@ const Index = () => {
             viewport={{ once: true, margin: "-50px" }}
             variants={stagger}
           >
-            {audiences.map((audience, i) => (
+            {audiences.map((audience) => (
               <motion.div
-                key={i}
+                key={audience.label}
                 className="flex flex-col items-center text-center group p-7 rounded-2xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300"
                 variants={scaleIn}
               >
@@ -363,9 +481,9 @@ const Index = () => {
             viewport={{ once: true, margin: "-50px" }}
             variants={stagger}
           >
-            {values.map((value, i) => (
+            {values.map((value) => (
               <motion.div
-                key={i}
+                key={value.label}
                 className="flex flex-col items-center text-center p-8 rounded-2xl bg-card border border-border/60 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group"
                 variants={scaleIn}
               >
@@ -385,7 +503,7 @@ const Index = () => {
         title="Parlons de votre situation"
         description={`Chaque entreprise est différente.
 Un échange permet de comprendre vos besoins et de vous proposer une solution adaptée.`}
-        buttonText="👉 Contactez-moi pour en discuter simplement."
+        buttonText="Contactez-moi pour en discuter simplement."
         href={settings.calendlyUrl}
       />
     </Layout>

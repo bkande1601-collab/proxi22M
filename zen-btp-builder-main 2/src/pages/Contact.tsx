@@ -284,8 +284,8 @@ const Contact = () => {
                   Réponse rapide garantie
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Nous nous engageons à vous répondre sous 24h ouvrées.
-                  Votre premier échange est gratuit et sans engagement.
+                  Nous nous engageons à vous répondre dans les plus brefs
+                  délais. Votre premier échange est gratuit et sans engagement.
                 </p>
               </div>
             </motion.div>

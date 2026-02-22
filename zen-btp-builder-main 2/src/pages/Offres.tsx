@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Check, Star } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
 import SEO from "@/components/SEO";
@@ -13,65 +13,67 @@ const stagger = {
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
 };
 
 const offers = [
   {
-    title: "Essentielle",
-    desc: "L'accompagnement de base pour structurer votre administratif.",
-    features: [
-      "Organisation des documents",
-      "Classement administratif",
-      "Suivi administratif basique",
-      "Transmission au cabinet comptable",
-    ],
-    highlight: false,
-  },
-  {
-    title: "Confort",
-    desc: "Une gestion administrative plus complète pour un quotidien serein.",
-    features: [
-      "Tout ce qui est dans Essentielle",
-      "Suivi régulier personnalisé",
-      "Gestion devis et facturation",
-      "Relation comptable optimisée",
+    title: "ESSENTIELLE",
+    subtitle: "Pour artisans et petites structures BTP",
+    services: [
+      "Devis et facturation",
+      "Organisation et classement administratif",
+      "Transmission des pièces au cabinet comptable",
+      "Relances clients simples",
       "Pré-comptabilité",
     ],
-    highlight: true,
+    benefit:
+      "Sérénité : un dossier carré chaque mois sans y passer vos soirées",
+    highlight: false,
+    cta: "Voir l’offre Essentielle",
   },
   {
-    title: "Premium",
-    desc: "L'accompagnement global pour une maîtrise totale de votre administratif.",
-    features: [
-      "Tout ce qui est dans Confort",
-      "Suivi renforcé et proactif",
-      "Optimisation administrative complète",
-      "Coordination avancée avec le cabinet",
-      "Reporting et tableaux de bord",
-      "Support prioritaire",
+    title: "CONFORT (Recommandée)",
+    subtitle:
+      "Offre recommandée pour un suivi fluide avec le cabinet comptable",
+    services: [
+      "Offre Essentielle incluse",
+      "Centralisation complète des pièces comptables",
+      "Interface administrative avec le cabinet comptable",
+      "Rappels d’échéances administratives",
+      "Tableaux de suivi administratif",
     ],
-    highlight: false,
+    benefit:
+      "Apaisement : pour un fonctionnement fluide avec votre cabinet comptable",
+    highlight: true,
+    cta: "Parler de mon organisation administrative",
   },
-];
-
-const comparison = [
-  { feature: "Organisation documentaire", essentielle: true, confort: true, premium: true },
-  { feature: "Classement administratif", essentielle: true, confort: true, premium: true },
-  { feature: "Transmission comptable", essentielle: true, confort: true, premium: true },
-  { feature: "Suivi régulier personnalisé", essentielle: false, confort: true, premium: true },
-  { feature: "Devis et facturation", essentielle: false, confort: true, premium: true },
-  { feature: "Pré-comptabilité", essentielle: false, confort: true, premium: true },
-  { feature: "Optimisation complète", essentielle: false, confort: false, premium: true },
-  { feature: "Reporting et tableaux de bord", essentielle: false, confort: false, premium: true },
-  { feature: "Support prioritaire", essentielle: false, confort: false, premium: true },
+  {
+    title: "PREMIUM",
+    subtitle:
+      "Cette offre s’adresse aux TPE/PME du BTP ayant un volume administratif important ou qui souhaite un suivi renforcé.",
+    services: [
+      "Offre Confort incluse",
+      "Suivi administratif renforcé",
+      "Coordination administrative avancée",
+      "Transmission prioritaire des documents",
+      "Forte réactivité",
+    ],
+    benefit:
+      "Croissance : déléguez tout le “poids” administratif pour vous concentrer sur vos chantiers",
+    highlight: false,
+    cta: "Appeler pour un accompagnement sur mesure",
+  },
 ];
 
 const Offres = () => {
   return (
     <Layout>
       <SEO pageId="offres" />
-      {/* HERO */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground section-padding">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-primary-foreground/20 blur-3xl" />
@@ -83,152 +85,154 @@ const Offres = () => {
             transition={{ duration: 0.7 }}
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary-foreground/10 text-sm font-medium mb-6 border border-primary-foreground/20">
-              Nos formules
+              NOS OFFRES (tarifs indicatifs)
             </span>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-4 leading-tight">
-              Nos offres d'accompagnement
+              Des offres adaptées à votre organisation administrative
             </h1>
-            <p className="text-lg text-primary-foreground/80 max-w-2xl mx-auto leading-relaxed">
-              Des formules adaptées à chaque besoin, sans engagement.
-              Choisissez l'accompagnement qui correspond à votre activité.
+            <p className="text-base md:text-lg text-primary-foreground/85 max-w-3xl mx-auto leading-relaxed">
+              Chaque entreprise ayant des besoins différents, nos
+              accompagnements sont personnalisés, sans forfait unique imposé.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* CARDS */}
       <section className="section-padding">
         <div className="container">
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
           >
-            {offers.map((o, i) => (
+            {offers.map((offer) => (
               <motion.div
-                key={i}
-                className={`relative p-8 rounded-2xl flex flex-col transition-all duration-300 hover:-translate-y-1 ${
-                  o.highlight
-                    ? "bg-primary text-primary-foreground shadow-2xl shadow-primary/20 scale-[1.03] border-2 border-primary"
+                key={offer.title}
+                className={`relative p-6 rounded-2xl flex flex-col h-full transition-all duration-300 hover:-translate-y-1 ${
+                  offer.highlight
+                    ? "bg-primary text-primary-foreground shadow-2xl shadow-primary/20 border-2 border-primary"
                     : "bg-card border border-border/60 hover:shadow-lg hover:border-primary/30"
                 }`}
                 variants={fadeUp}
               >
-                {o.highlight && (
+                {offer.highlight ? (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-4 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-bold uppercase tracking-wider">
                     <Star size={12} fill="currentColor" />
-                    Populaire
+                    Recommandée
                   </span>
-                )}
-                <h3 className={`text-2xl font-heading font-extrabold mb-2 ${o.highlight ? "" : "text-primary"}`}>
-                  {o.title}
+                ) : null}
+                <h3
+                  className={`text-xl font-heading font-extrabold mb-2 ${
+                    offer.highlight ? "" : "text-primary"
+                  }`}
+                >
+                  {offer.title}
                 </h3>
-                <p className={`text-sm mb-6 leading-relaxed ${o.highlight ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
-                  {o.desc}
+                <p
+                  className={`text-xs md:text-sm mb-4 leading-relaxed ${
+                    offer.highlight
+                      ? "text-primary-foreground/85"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {offer.subtitle}
                 </p>
-                <ul className="space-y-3 flex-1 mb-8">
-                  {o.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-2.5 text-sm">
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
-                        o.highlight ? "bg-accent/30" : "bg-primary/10"
-                      }`}>
-                        <Check className={o.highlight ? "text-accent-foreground" : "text-primary"} size={12} />
+                <ul className="space-y-2 mb-4">
+                  {offer.services.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2.5 text-xs md:text-sm"
+                    >
+                      <div
+                        className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
+                          offer.highlight ? "bg-accent/30" : "bg-primary/10"
+                        }`}
+                      >
+                        <Check
+                          className={
+                            offer.highlight
+                              ? "text-accent-foreground"
+                              : "text-primary"
+                          }
+                          size={12}
+                        />
                       </div>
-                      <span>{f}</span>
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
-                <Button
-                  asChild
-                  variant={o.highlight ? "secondary" : "outline"}
-                  className="w-full group"
+                <p
+                  className={`text-xs md:text-sm leading-relaxed ${
+                    offer.highlight
+                      ? "text-primary-foreground"
+                      : "text-muted-foreground"
+                  }`}
                 >
-                  <Link to="/contact">
-                    Demander un devis
-                    <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
-                  </Link>
-                </Button>
+                  Bénéfice : {offer.benefit}
+                </p>
+
+                <div className="mt-auto pt-5">
+                  <Button
+                    asChild
+                    variant={offer.highlight ? "secondary" : "outline"}
+                    className="w-full group"
+                  >
+                    <Link to="/contact">
+                      {offer.cta}
+                      <ArrowRight
+                        className="ml-2 group-hover:translate-x-1 transition-transform"
+                        size={16}
+                      />
+                    </Link>
+                  </Button>
+                </div>
               </motion.div>
             ))}
           </motion.div>
-        </div>
-      </section>
 
-      {/* COMPARISON TABLE */}
-      <section className="section-padding bg-card">
-        <div className="container max-w-4xl">
           <motion.div
-            className="text-center mb-14"
+            className="mt-8 p-7 rounded-2xl bg-card border border-border/60 max-w-4xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <span className="text-sm font-semibold text-accent uppercase tracking-widest mb-3 block">
-              Comparaison
-            </span>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold">
-              Tableau comparatif
-            </h2>
+            <h3 className="text-xl font-heading font-bold mb-3">
+              Mission à la carte
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Tri, classement et mise à jour d'une comptabilité en retard
+              (plusieurs mois).
+            </p>
+            <p className="text-sm font-medium mt-3">
+              Bénéfice : Liberté : Une intervention ponctuelle pour repartir sur
+              des bases saines
+            </p>
           </motion.div>
+
           <motion.div
-            className="overflow-x-auto rounded-2xl border border-border/60 bg-background shadow-sm"
+            className="mt-8 space-y-2 text-sm text-muted-foreground max-w-4xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border/60">
-                  <th className="text-left p-5 font-heading font-bold">Prestation</th>
-                  <th className="p-5 font-heading font-bold text-center">Essentielle</th>
-                  <th className="p-5 font-heading font-bold text-center bg-primary/5 rounded-t-lg">Confort</th>
-                  <th className="p-5 font-heading font-bold text-center">Premium</th>
-                </tr>
-              </thead>
-              <tbody>
-                {comparison.map((row, i) => (
-                  <tr key={i} className="border-b border-border/40 last:border-0 hover:bg-muted/30 transition-colors">
-                    <td className="p-4 font-medium">{row.feature}</td>
-                    <td className="p-4 text-center">
-                      {row.essentielle ? (
-                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                          <Check className="text-primary" size={14} />
-                        </div>
-                      ) : (
-                        <span className="text-muted-foreground/40">—</span>
-                      )}
-                    </td>
-                    <td className="p-4 text-center bg-primary/5">
-                      {row.confort ? (
-                        <div className="w-6 h-6 rounded-full bg-primary/15 flex items-center justify-center mx-auto">
-                          <Check className="text-primary" size={14} />
-                        </div>
-                      ) : (
-                        <span className="text-muted-foreground/40">—</span>
-                      )}
-                    </td>
-                    <td className="p-4 text-center">
-                      {row.premium ? (
-                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                          <Check className="text-primary" size={14} />
-                        </div>
-                      ) : (
-                        <span className="text-muted-foreground/40">—</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <p className="font-medium text-foreground">Note tarifaire :</p>
+            <p>
+              Les tarifs sont ajustables selon le volume de factures, la taille
+              de l’entreprise et la complexité administrative.
+            </p>
+            <p>Un devis personnalisé est établi après un premier échange.</p>
           </motion.div>
         </div>
       </section>
 
-      <SectionCTA buttonText="Demander un devis personnalisé" />
+      <SectionCTA
+        title="Parlons de votre organisation administrative"
+        buttonText="Demander un devis personnalisé"
+      />
     </Layout>
   );
 };

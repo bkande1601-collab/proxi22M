@@ -1,10 +1,9 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowDown, CheckCircle2 } from "lucide-react";
+import { ArrowDown, ArrowRight, CheckCircle2 } from "lucide-react";
 import Layout from "@/components/Layout";
 import SEO from "@/components/SEO";
-import { useSiteSettings } from "@/components/SiteSettingsProvider";
-import { trackCalendlyClick } from "@/lib/site-insights";
 
 const stagger = {
   hidden: {},
@@ -52,6 +51,12 @@ const processSteps = [
   "Mise en place et suivi régulier",
 ];
 
+const simplifiedFlow = [
+  "Artisan / Entreprise BTP",
+  "ProxizenBTP – Assistance administrative",
+  "Cabinet comptable – Comptabilité, fiscalité, social",
+];
+
 const offers = [
   {
     title: "ESSENTIELLE",
@@ -65,6 +70,7 @@ const offers = [
     ],
     benefit:
       "Sérénité : un dossier carré chaque mois sans y passer vos soirées",
+    cta: "Voir l’offre Essentielle",
   },
   {
     title: "CONFORT (Recommandée)",
@@ -99,8 +105,6 @@ const offers = [
 ];
 
 const Accompagnement = () => {
-  const { settings } = useSiteSettings();
-
   return (
     <Layout>
       <SEO pageId="accompagnement" />
@@ -167,7 +171,10 @@ const Accompagnement = () => {
               <ul className="space-y-3">
                 {needsArtisan.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm">
-                    <CheckCircle2 className="text-primary mt-0.5 shrink-0" size={18} />
+                    <CheckCircle2
+                      className="text-primary mt-0.5 shrink-0"
+                      size={18}
+                    />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -184,7 +191,10 @@ const Accompagnement = () => {
               <ul className="space-y-3">
                 {needsCabinet.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm">
-                    <CheckCircle2 className="text-primary mt-0.5 shrink-0" size={18} />
+                    <CheckCircle2
+                      className="text-primary mt-0.5 shrink-0"
+                      size={18}
+                    />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -195,7 +205,7 @@ const Accompagnement = () => {
       </section>
 
       <section className="section-padding bg-card">
-        <div className="container max-w-4xl">
+        <div className="container max-w-6xl">
           <motion.div
             className="text-center mb-12"
             initial="hidden"
@@ -208,32 +218,39 @@ const Accompagnement = () => {
             </h2>
           </motion.div>
           <motion.div
-            className="flex flex-col items-center text-center"
+            className="max-w-5xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
           >
-            {[
-              "Artisan / Entreprise BTP",
-              "ProxizenBTP – Assistance administrative",
-              "Cabinet comptable – Comptabilité, fiscalité, social",
-            ].map((line, index) => (
-              <motion.div
-                key={line}
-                variants={fadeUp}
-                className="w-full max-w-2xl"
-              >
-                <div className="p-5 rounded-2xl bg-background border border-border/60 font-medium">
-                  {line}
+            <div className="flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-2">
+              {simplifiedFlow.map((line, index) => (
+                <div
+                  key={line}
+                  className="flex items-center md:flex-1 md:min-w-0 gap-2"
+                >
+                  <motion.div
+                    className="w-full p-5 rounded-2xl bg-background border border-border/60 font-medium text-center shadow-sm hover:shadow-md transition-shadow"
+                    variants={scaleIn}
+                  >
+                    {line}
+                  </motion.div>
+                  {index < simplifiedFlow.length - 1 ? (
+                    <>
+                      <ArrowRight
+                        className="hidden md:block text-primary shrink-0"
+                        size={18}
+                      />
+                      <ArrowDown
+                        className="md:hidden text-primary shrink-0 mx-auto"
+                        size={18}
+                      />
+                    </>
+                  ) : null}
                 </div>
-                {index < 2 ? (
-                  <div className="py-4 flex justify-center">
-                    <ArrowDown className="text-primary" size={22} />
-                  </div>
-                ) : null}
-              </motion.div>
-            ))}
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -286,7 +303,7 @@ const Accompagnement = () => {
             <h2 className="text-3xl md:text-4xl font-heading font-bold">
               NOS OFFRES
             </h2>
-            <p className="text-muted-foreground mt-4 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-muted-foreground mt-4 max-w-3xl mx-auto leading-relaxed text-sm">
               Chaque entreprise ayant des besoins différents, nos accompagnements
               sont personnalisés, sans forfait unique imposé.
             </p>
@@ -302,7 +319,7 @@ const Accompagnement = () => {
             {offers.map((offer, index) => (
               <motion.div
                 key={offer.title}
-                className={`p-7 rounded-2xl border transition-all duration-300 ${
+                className={`p-6 rounded-2xl border transition-all duration-300 flex flex-col h-full ${
                   index === 1
                     ? "bg-primary text-primary-foreground border-primary shadow-2xl shadow-primary/20"
                     : "bg-background border-border/60 hover:border-primary/30 hover:shadow-md"
@@ -310,14 +327,14 @@ const Accompagnement = () => {
                 variants={scaleIn}
               >
                 <h3
-                  className={`text-xl font-heading font-extrabold mb-2 ${
+                  className={`text-lg font-heading font-extrabold mb-2 ${
                     index === 1 ? "" : "text-primary"
                   }`}
                 >
                   {offer.title}
                 </h3>
                 <p
-                  className={`text-sm leading-relaxed mb-4 ${
+                  className={`text-xs md:text-sm leading-relaxed mb-4 ${
                     index === 1
                       ? "text-primary-foreground/85"
                       : "text-muted-foreground"
@@ -325,11 +342,11 @@ const Accompagnement = () => {
                 >
                   {offer.subtitle}
                 </p>
-                <ul className="space-y-2 mb-5">
+                <ul className="space-y-2 mb-4">
                   {offer.services.map((item) => (
                     <li
                       key={item}
-                      className={`text-sm flex items-start gap-2 ${
+                      className={`text-xs md:text-sm flex items-start gap-2 ${
                         index === 1
                           ? "text-primary-foreground"
                           : "text-foreground"
@@ -341,7 +358,7 @@ const Accompagnement = () => {
                   ))}
                 </ul>
                 <p
-                  className={`text-sm font-medium leading-relaxed ${
+                  className={`text-xs md:text-sm leading-relaxed ${
                     index === 1
                       ? "text-primary-foreground"
                       : "text-muted-foreground"
@@ -349,28 +366,18 @@ const Accompagnement = () => {
                 >
                   Bénéfice : {offer.benefit}
                 </p>
-                {offer.cta ? (
+                <div className="mt-auto pt-5">
                   <Button
                     asChild
-                    className="w-full mt-5"
+                    className="w-full"
                     variant={index === 1 ? "secondary" : "default"}
                   >
-                    <a
-                      href={settings.calendlyUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={() =>
-                        trackCalendlyClick(
-                          index === 1
-                            ? "accompagnement-offre-confort"
-                            : "accompagnement-offre-premium",
-                        )
-                      }
-                    >
+                    <Link to="/offres">
                       {offer.cta}
-                    </a>
+                      <ArrowRight className="ml-2" size={16} />
+                    </Link>
                   </Button>
-                ) : null}
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -407,9 +414,7 @@ const Accompagnement = () => {
               Les tarifs sont ajustables selon le volume de factures, la taille
               de l’entreprise et la complexité administrative.
             </p>
-            <p>
-              Un devis personnalisé est établi après un premier échange.
-            </p>
+            <p>Un devis personnalisé est établi après un premier échange.</p>
           </motion.div>
         </div>
       </section>

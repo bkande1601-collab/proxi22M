@@ -1,5 +1,13 @@
 import { motion } from "framer-motion";
-import { Shield, Eye, Heart, Users, Handshake, Bolt } from "lucide-react";
+import {
+  Shield,
+  Eye,
+  Heart,
+  Users,
+  Handshake,
+  Bolt,
+  Quote,
+} from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
 import SEO from "@/components/SEO";
@@ -44,10 +52,14 @@ const APropos = () => {
     <Layout>
       <SEO pageId="apropos" />
 
-      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-        <div className="container text-center">
+      <section className="relative overflow-hidden py-16 md:py-24 bg-primary text-primary-foreground">
+        <div className="absolute inset-0 opacity-15">
+          <div className="absolute -top-10 -left-10 w-64 h-64 rounded-full bg-primary-foreground/20 blur-3xl" />
+          <div className="absolute -bottom-10 right-0 w-80 h-80 rounded-full bg-accent/25 blur-3xl" />
+        </div>
+        <div className="container text-center relative z-10">
           <motion.h1
-            className="text-3xl md:text-5xl font-heading font-bold mb-4 max-w-4xl mx-auto"
+            className="text-3xl md:text-5xl font-heading font-bold mb-4 max-w-4xl mx-auto text-balance"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -57,55 +69,71 @@ const APropos = () => {
       </section>
 
       <section className="py-16 md:py-24 bg-card">
-        <div className="container max-w-4xl">
+        <div className="container max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="space-y-4 text-muted-foreground leading-relaxed"
+            className="rounded-3xl border border-border/60 bg-background p-8 md:p-10 shadow-sm"
           >
-            <p>
-              ProxyZen BTP est né d’un constat simple : dans le BTP, le temps est
-              précieux et l’administratif devient vite une charge lourde,
-              stressante et chronophage pour les artisans et dirigeants de
-              petites structures.
-            </p>
-            <p>
-              Devis, factures, relances, dossiers, échanges avec les organismes…
-              Pendant que vous êtes sur vos chantiers, l’administratif
-              s’accumule.
-            </p>
-            <p>
-              Ma mission est simple : vous libérer l’esprit pour que vous
-              puissiez vous concentrer sur votre cœur de métier.
-            </p>
+            <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <p>
+                ProxyZen BTP est né d’un constat simple : dans le BTP, le temps
+                est précieux et l’administratif devient vite une charge lourde,
+                stressante et chronophage pour les artisans et dirigeants de
+                petites structures.
+              </p>
+              <p>
+                Devis, factures, relances, dossiers, échanges avec les
+                organismes… Pendant que vous êtes sur vos chantiers,
+                l’administratif s’accumule.
+              </p>
+              <p>
+                Ma mission est simple : vous libérer l’esprit pour que vous
+                puissiez vous concentrer sur votre cœur de métier.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
 
       <section className="py-16 md:py-24">
-        <div className="container max-w-4xl">
+        <div className="container max-w-5xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            className="grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-6 items-stretch"
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
+            variants={fadeUp}
+            custom={0}
           >
-            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6">
-              Qui suis-je ?
-            </h2>
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>
-                Je suis assistante administrative indépendante, spécialisée dans
-                le secteur du BTP. J’ai travaillé plusieurs années au sein
-                d’entreprises du bâtiment, au plus près du terrain, notamment
-                dans la peinture, ce qui m’a permis de comprendre les réalités
-                concrètes des artisans.
-              </p>
-              <p>
-                ProxyZen BTP n’est pas une assistance administrative généraliste.
-                C’est un accompagnement pensé pour le BTP, avec ses contraintes,
-                son rythme et ses priorités.
-              </p>
+            <div className="rounded-3xl border border-border/60 bg-card p-8 md:p-10">
+              <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6">
+                Qui suis-je ?
+              </h2>
+              <div className="space-y-4 text-muted-foreground leading-relaxed">
+                <p>
+                  Je suis assistante administrative indépendante, spécialisée dans
+                  le secteur du BTP. J’ai travaillé plusieurs années au sein
+                  d’entreprises du bâtiment, au plus près du terrain, notamment
+                  dans la peinture, ce qui m’a permis de comprendre les réalités
+                  concrètes des artisans.
+                </p>
+                <p>
+                  ProxyZen BTP n’est pas une assistance administrative
+                  généraliste. C’est un accompagnement pensé pour le BTP, avec
+                  ses contraintes, son rythme et ses priorités.
+                </p>
+              </div>
+            </div>
+            <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 to-accent/10 p-6 flex items-end">
+              <div className="rounded-2xl bg-background/90 backdrop-blur-sm border border-border/60 p-4">
+                <Quote className="text-primary mb-2" size={18} />
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Ma mission est simple : vous libérer l’esprit pour que vous
+                  puissiez vous concentrer sur votre cœur de métier.
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -120,14 +148,14 @@ const APropos = () => {
             {apports.map((item, i) => (
               <motion.div
                 key={item.text}
-                className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300"
+                className="flex flex-col items-center text-center p-6 rounded-2xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeUp}
                 custom={i}
               >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-accent/10 flex items-center justify-center mb-4">
                   <item.icon className="text-primary" size={24} />
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -140,12 +168,12 @@ const APropos = () => {
       </section>
 
       <section className="py-16 md:py-24">
-        <div className="container max-w-4xl">
+        <div className="container max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-8 md:p-10 rounded-3xl bg-card border border-border/60"
+            className="p-8 md:p-10 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-card border border-primary/20"
           >
             <h2 className="text-2xl md:text-3xl font-heading font-bold mb-5">
               Une approche zen… mais efficace
@@ -175,19 +203,17 @@ const APropos = () => {
             {confiance.map((item, i) => (
               <motion.div
                 key={item.text}
-                className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300"
+                className="flex flex-col items-center text-center p-6 rounded-2xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeUp}
                 custom={i}
               >
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-accent/10 flex items-center justify-center mb-4">
                   <item.icon className="text-primary" size={24} />
                 </div>
-                <p className="text-sm font-medium">
-                  {item.text}
-                </p>
+                <p className="text-sm font-medium">{item.text}</p>
               </motion.div>
             ))}
           </div>
