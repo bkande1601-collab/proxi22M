@@ -394,7 +394,7 @@ const Accompagnement = () => {
               (plusieurs mois).
             </p>
             <p className="text-sm font-medium mt-3">
-              Avantages : Une intervention ponctuelle pour repartir sur des bases
+              Avantage : Une intervention ponctuelle pour repartir sur des bases
               saines
             </p>
           </motion.div>

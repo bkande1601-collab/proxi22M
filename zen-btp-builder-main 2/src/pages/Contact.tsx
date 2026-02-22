@@ -148,6 +148,25 @@ const Contact = () => {
         </div>
       </section>
 
+      <section className="py-8 md:py-10 bg-card">
+        <div className="container max-w-5xl">
+          <motion.a
+            href="tel:0699327230"
+            className="block rounded-2xl bg-primary p-6 md:p-8 text-center border border-primary/40 shadow-lg shadow-primary/20 hover:shadow-xl transition-shadow"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-primary-foreground/85 text-sm md:text-base mb-2">
+              Appelez-nous directement
+            </p>
+            <p className="text-white text-3xl md:text-4xl font-heading font-extrabold tracking-wide">
+              06 99 32 72 30
+            </p>
+          </motion.a>
+        </div>
+      </section>
+
       <section className="py-16 md:py-24">
         <div className="container max-w-5xl">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
@@ -215,11 +234,10 @@ const Contact = () => {
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="message">Message *</Label>
+                    <Label htmlFor="message">Message</Label>
                     <Textarea
                       id="message"
                       name="message"
-                      required
                       maxLength={1000}
                       rows={5}
                       placeholder="Décrivez votre besoin…"
