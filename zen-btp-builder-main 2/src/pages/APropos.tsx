@@ -126,9 +126,9 @@ const APropos = () => {
                 </p>
               </div>
             </div>
-            <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 to-accent/10 p-6 flex items-end">
-              <div className="rounded-2xl bg-background/90 backdrop-blur-sm border border-border/60 p-4">
-                <Quote className="text-primary mb-2" size={18} />
+            <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 to-accent/10 p-6 flex items-center justify-center">
+              <div className="rounded-2xl bg-background/90 backdrop-blur-sm border border-border/60 p-5 max-w-sm w-full text-center">
+                <Quote className="text-primary mb-2 mx-auto" size={18} />
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Ma mission est simple : vous libérer l’esprit pour que vous
                   puissiez vous concentrer sur votre cœur de métier.

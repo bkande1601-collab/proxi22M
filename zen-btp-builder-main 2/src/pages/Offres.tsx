@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Star } from "lucide-react";
+import { Check, Star } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
 import SEO from "@/components/SEO";
@@ -177,14 +177,10 @@ const Offres = () => {
                   <Button
                     asChild
                     variant={offer.highlight ? "secondary" : "outline"}
-                    className="w-full group"
+                    className="w-full h-auto min-h-10 whitespace-normal text-center leading-snug px-3 py-2"
                   >
                     <Link to="/contact">
                       {offer.cta}
-                      <ArrowRight
-                        className="ml-2 group-hover:translate-x-1 transition-transform"
-                        size={16}
-                      />
                     </Link>
                   </Button>
                 </div>

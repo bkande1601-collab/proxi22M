@@ -369,12 +369,11 @@ const Accompagnement = () => {
                 <div className="mt-auto pt-5">
                   <Button
                     asChild
-                    className="w-full"
+                    className="w-full h-auto min-h-10 whitespace-normal text-center leading-snug px-3 py-2"
                     variant={index === 1 ? "secondary" : "default"}
                   >
                     <Link to="/offres">
                       {offer.cta}
-                      <ArrowRight className="ml-2" size={16} />
                     </Link>
                   </Button>
                 </div>
@@ -403,18 +402,22 @@ const Accompagnement = () => {
           </motion.div>
 
           <motion.div
-            className="mt-8 space-y-2 text-sm text-muted-foreground max-w-4xl"
+            className="mt-8 p-7 rounded-2xl bg-background border border-border/60 max-w-4xl"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <p className="font-medium text-foreground">Note tarifaire :</p>
-            <p>
+            <p className="font-heading font-bold text-foreground mb-3">
+              Note tarifaire :
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Les tarifs sont ajustables selon le volume de factures, la taille
               de l’entreprise et la complexité administrative.
             </p>
-            <p>Un devis personnalisé est établi après un premier échange.</p>
+            <p className="text-sm text-muted-foreground leading-relaxed mt-3">
+              Un devis personnalisé est établi après un premier échange.
+            </p>
           </motion.div>
         </div>
       </section>
