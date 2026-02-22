@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSiteSettings } from "@/components/SiteSettingsProvider";
 
 const navLinks = [
   { label: "Accueil", path: "/" },
@@ -17,6 +18,7 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { settings } = useSiteSettings();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -74,7 +76,9 @@ const Header = () => {
             asChild
             className={scrolled ? "" : "bg-accent hover:bg-accent/90 text-accent-foreground"}
           >
-            <Link to="/contact">Demander un échange</Link>
+            <a href={settings.calendlyUrl} target="_blank" rel="noreferrer">
+              Demander un échange
+            </a>
           </Button>
         </div>
 
@@ -117,9 +121,14 @@ const Header = () => {
               ))}
               <div className="pt-2 px-4">
                 <Button asChild className="w-full">
-                  <Link to="/contact" onClick={() => setMobileOpen(false)}>
+                  <a
+                    href={settings.calendlyUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                  >
                     Demander un échange
-                  </Link>
+                  </a>
                 </Button>
               </div>
             </nav>

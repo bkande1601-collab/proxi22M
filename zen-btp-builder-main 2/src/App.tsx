@@ -11,6 +11,8 @@ import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import AccesPrive from "./pages/AccesPrive";
+import { SiteSettingsProvider } from "./components/SiteSettingsProvider";
 
 const queryClient = new QueryClient();
 
@@ -19,18 +21,21 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/accompagnement" element={<Accompagnement />} />
-          <Route path="/offres" element={<Offres />} />
-          <Route path="/a-propos" element={<APropos />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <SiteSettingsProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/accompagnement" element={<Accompagnement />} />
+            <Route path="/offres" element={<Offres />} />
+            <Route path="/a-propos" element={<APropos />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/acces-prive" element={<AccesPrive />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </SiteSettingsProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

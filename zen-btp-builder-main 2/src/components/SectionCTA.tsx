@@ -7,12 +7,14 @@ interface SectionCTAProps {
   title?: string;
   buttonText?: string;
   to?: string;
+  href?: string;
 }
 
 const SectionCTA = ({
   title = "Et si vous gagniez du temps sur votre administratif ?",
   buttonText = "Planifier un échange gratuit",
   to = "/contact",
+  href,
 }: SectionCTAProps) => {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground section-padding">
@@ -43,10 +45,17 @@ const SectionCTA = ({
             size="lg"
             className="text-base px-10 bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg shadow-primary/20 group"
           >
-            <Link to={to}>
-              {buttonText}
-              <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
-            </Link>
+            {href ? (
+              <a href={href} target="_blank" rel="noreferrer">
+                {buttonText}
+                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+              </a>
+            ) : (
+              <Link to={to}>
+                {buttonText}
+                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+              </Link>
+            )}
           </Button>
         </motion.div>
       </div>

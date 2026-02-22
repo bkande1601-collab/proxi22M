@@ -21,6 +21,7 @@ import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
 import heroBtp from "@/assets/hero-btp.jpg";
 import { useRef } from "react";
+import { useSiteSettings } from "@/components/SiteSettingsProvider";
 
 const stagger = {
   hidden: {},
@@ -87,6 +88,7 @@ const values = [
 
 const Index = () => {
   const heroRef = useRef(null);
+  const { settings } = useSiteSettings();
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -136,10 +138,10 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="text-base px-8 bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg shadow-accent/25">
-                <Link to="/contact">
+                <a href={settings.calendlyUrl} target="_blank" rel="noreferrer">
                   Prendre rendez-vous
                   <ArrowRight className="ml-2" size={18} />
-                </Link>
+                </a>
               </Button>
               <Button
                 asChild

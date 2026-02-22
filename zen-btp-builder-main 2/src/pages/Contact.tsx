@@ -7,9 +7,11 @@ import { Label } from "@/components/ui/label";
 import { Mail, Phone, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
+import { useSiteSettings } from "@/components/SiteSettingsProvider";
 
 const Contact = () => {
   const { toast } = useToast();
+  const { settings } = useSiteSettings();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -110,7 +112,12 @@ const Contact = () => {
                     <Mail className="text-primary mt-1 shrink-0" size={18} />
                     <div>
                       <p className="font-medium text-sm">Email</p>
-                      <p className="text-sm text-muted-foreground">contact@proxizen-btp.fr</p>
+                      <a
+                        href={`mailto:${settings.contactEmail}`}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        {settings.contactEmail}
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
