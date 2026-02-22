@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
 import { addContactRequest, trackCalendlyClick } from "@/lib/site-insights";
+import SEO from "@/components/SEO";
 
 interface ContactPayload {
   firstName: string;
@@ -131,6 +132,7 @@ const Contact = () => {
 
   return (
     <Layout>
+      <SEO pageId="contact" />
       <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container text-center">
           <motion.h1

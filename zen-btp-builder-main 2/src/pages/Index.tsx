@@ -23,6 +23,7 @@ import heroBtp from "@/assets/hero-btp.jpg";
 import { useRef } from "react";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
 import { trackCalendlyClick } from "@/lib/site-insights";
+import SEO from "@/components/SEO";
 
 const stagger = {
   hidden: {},
@@ -100,6 +101,7 @@ const Index = () => {
 
   return (
     <Layout>
+      <SEO pageId="home" />
       {/* HERO */}
       <section ref={heroRef} className="relative overflow-hidden min-h-[90vh] flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>

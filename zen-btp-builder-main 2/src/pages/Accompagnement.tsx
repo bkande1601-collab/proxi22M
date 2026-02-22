@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
+import SEO from "@/components/SEO";
 
 const stagger = {
   hidden: {},
@@ -71,6 +72,7 @@ const diffPoints = [
 const Accompagnement = () => {
   return (
     <Layout>
+      <SEO pageId="accompagnement" />
       {/* HERO */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground section-padding">
         <div className="absolute inset-0 opacity-10">

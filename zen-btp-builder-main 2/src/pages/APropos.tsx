@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Shield, Eye, Heart, Users } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
+import SEO from "@/components/SEO";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -22,6 +23,7 @@ const valeurs = [
 const APropos = () => {
   return (
     <Layout>
+      <SEO pageId="apropos" />
       {/* HERO */}
       <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container text-center">

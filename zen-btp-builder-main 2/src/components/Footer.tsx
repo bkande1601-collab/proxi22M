@@ -64,12 +64,7 @@ const Footer = () => {
 
         <div className="border-t border-background/10 mt-12 pt-8 text-xs text-background/40 flex flex-col sm:flex-row items-center justify-center gap-3">
           <span>© {new Date().getFullYear()} ProxiZen BTP. Tous droits réservés.</span>
-          <Link
-            to="/acces-prive"
-            className="text-background/50 hover:text-background transition-colors"
-          >
-            Back-office
-          </Link>
+          <span>Created by Becc&apos;s Studio</span>
         </div>
       </div>
     </footer>

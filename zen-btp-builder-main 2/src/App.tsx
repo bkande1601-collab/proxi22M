@@ -13,6 +13,8 @@ import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import AccesPrive from "./pages/AccesPrive";
 import { SiteSettingsProvider } from "./components/SiteSettingsProvider";
+import AccesPriveSeo from "./pages/AccesPriveSeo";
+import AccesPriveSeoEditor from "./pages/AccesPriveSeoEditor";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,8 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/acces-prive" element={<AccesPrive />} />
+            <Route path="/acces-prive/seo" element={<AccesPriveSeo />} />
+            <Route path="/acces-prive/seo/:pageId" element={<AccesPriveSeoEditor />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

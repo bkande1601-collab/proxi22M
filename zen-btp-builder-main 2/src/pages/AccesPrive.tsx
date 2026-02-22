@@ -1,5 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -198,6 +200,11 @@ const AccesPrive = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Dashboard prive - ProxizenBTP"
+        description="Suivi prive des demandes clients et statistiques."
+        noindex
+      />
       <section className="py-16 md:py-24">
         <div className="container max-w-6xl">
           <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -246,6 +253,9 @@ const AccesPrive = () => {
                 </Button>
                 <Button type="button" variant="ghost" onClick={handleLogout}>
                   Se deconnecter
+                </Button>
+                <Button asChild className="sm:ml-auto">
+                  <Link to="/acces-prive/seo">Gestion SEO</Link>
                 </Button>
               </div>
 

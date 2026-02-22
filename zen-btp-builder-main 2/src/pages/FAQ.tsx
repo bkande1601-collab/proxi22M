@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
+import SEO from "@/components/SEO";
 
 const faqs = [
   {
@@ -38,6 +39,7 @@ const faqs = [
 const FAQ = () => {
   return (
     <Layout>
+      <SEO pageId="faq" />
       <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container text-center">
           <motion.h1

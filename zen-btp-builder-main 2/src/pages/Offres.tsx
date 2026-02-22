@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Check, ArrowRight, Star } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
+import SEO from "@/components/SEO";
 
 const stagger = {
   hidden: {},
@@ -69,6 +70,7 @@ const comparison = [
 const Offres = () => {
   return (
     <Layout>
+      <SEO pageId="offres" />
       {/* HERO */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground section-padding">
         <div className="absolute inset-0 opacity-10">
