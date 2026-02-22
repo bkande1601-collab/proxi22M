@@ -8,7 +8,7 @@ import { Mail, Phone, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
-import { addContactRequest } from "@/lib/site-insights";
+import { addContactRequest, trackCalendlyClick } from "@/lib/site-insights";
 
 interface ContactPayload {
   name: string;
@@ -214,7 +214,15 @@ const Contact = () => {
                     <Phone className="text-primary mt-1 shrink-0" size={18} />
                     <div>
                       <p className="font-medium text-sm">Téléphone</p>
-                      <p className="text-sm text-muted-foreground">Sur rendez-vous</p>
+                      <a
+                        href={settings.calendlyUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => trackCalendlyClick("contact-info")}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        demander un échange
+                      </a>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
