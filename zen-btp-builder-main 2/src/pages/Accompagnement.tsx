@@ -1,26 +1,10 @@
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import {
-  FolderOpen,
-  Calculator,
-  ClipboardList,
-  Users,
-  FileText,
-  BarChart3,
-  Phone,
-  Search,
-  Settings,
-  ArrowRight,
-  Shield,
-  Heart,
-  MessageSquare,
-  Handshake,
-  CheckCircle2,
-} from "lucide-react";
+import { ArrowDown, CheckCircle2 } from "lucide-react";
 import Layout from "@/components/Layout";
-import SectionCTA from "@/components/SectionCTA";
 import SEO from "@/components/SEO";
+import { useSiteSettings } from "@/components/SiteSettingsProvider";
+import { trackCalendlyClick } from "@/lib/site-insights";
 
 const stagger = {
   hidden: {},
@@ -29,51 +13,98 @@ const stagger = {
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
 };
 
 const scaleIn = {
   hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const } },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+  },
 };
 
-const services = [
-  { icon: FolderOpen, label: "Organisation administrative", desc: "Structuration complète de vos documents" },
-  { icon: FileText, label: "Devis et facturation", desc: "Création et suivi de bout en bout" },
-  { icon: ClipboardList, label: "Classement documentaire", desc: "Transmission optimisée au comptable" },
-  { icon: Users, label: "Interface comptable", desc: "Coordination fluide avec votre cabinet" },
-  { icon: BarChart3, label: "Suivi quotidien", desc: "Gestion administrative au jour le jour" },
-  { icon: Calculator, label: "Pré-comptabilité", desc: "Préparation de tous vos éléments" },
+const needsArtisan = [
+  "Devis et factures clairs et conformes",
+  "Administratif structuré et organisé",
+  "Moins de stress et moins d’oublis",
+  "Gain de temps sur les chantiers",
+  "Meilleure relation avec votre cabinet comptable",
 ];
 
-const steps = [
-  { icon: Phone, title: "Premier échange gratuit", desc: "Un appel pour comprendre vos besoins." },
-  { icon: Search, title: "Analyse de l'organisation", desc: "Diagnostic de votre situation actuelle." },
-  { icon: Settings, title: "Proposition personnalisée", desc: "Une offre adaptée à votre activité." },
-  { icon: ArrowRight, title: "Mise en place et suivi", desc: "Accompagnement régulier et ajustements." },
+const needsCabinet = [
+  "Dossiers clients organisés",
+  "Pièces transmises à temps",
+  "Moins de relances et d’allers-retours",
+  "Aucun empiètement sur vos missions comptables, fiscales ou sociales",
+  "Un partenaire administratif fiable pour vos clients BTP",
 ];
 
-const targetList = [
-  "Vous êtes artisan, TPE ou PME du BTP",
-  "Vous travaillez seul ou avec une petite équipe",
-  "Vous manquez de temps pour l'administratif",
-  "Vous voulez une organisation fiable",
-  "Vous travaillez avec un cabinet comptable ou souhaitez en avoir un",
+const processSteps = [
+  "Premier échange téléphonique (gratuit)",
+  "Analyse de votre organisation et de vos besoins",
+  "Proposition d’un accompagnement adapté",
+  "Mise en place et suivi régulier",
 ];
 
-const diffPoints = [
-  { icon: Shield, label: "Spécialisation BTP", desc: "Expertise dédiée au secteur du bâtiment" },
-  { icon: Heart, label: "Compréhension terrain", desc: "Connaissance réelle de vos contraintes" },
-  { icon: MessageSquare, label: "Communication simple", desc: "Échanges clairs et sans jargon" },
-  { icon: Handshake, label: "Coordination comptable", desc: "Travail en synergie avec votre cabinet" },
-  { icon: Users, label: "Approche humaine", desc: "Un accompagnement structuré et bienveillant" },
+const offers = [
+  {
+    title: "ESSENTIELLE",
+    subtitle: "Pour artisans et petites structures BTP",
+    services: [
+      "Devis et facturation",
+      "Organisation et classement administratif",
+      "Transmission des pièces au cabinet comptable",
+      "Relances clients simples",
+      "Pré-comptabilité",
+    ],
+    benefit:
+      "Sérénité : un dossier carré chaque mois sans y passer vos soirées",
+  },
+  {
+    title: "CONFORT (Recommandée)",
+    subtitle:
+      "Offre recommandée pour un suivi fluide avec le cabinet comptable",
+    services: [
+      "Offre Essentielle incluse",
+      "Centralisation complète des pièces comptables",
+      "Interface administrative avec le cabinet comptable",
+      "Rappels d’échéances administratives",
+      "Tableaux de suivi administratif",
+    ],
+    benefit:
+      "Apaisement : pour un fonctionnement fluide avec votre cabinet comptable",
+    cta: "Parler de mon organisation administrative",
+  },
+  {
+    title: "PREMIUM",
+    subtitle:
+      "Cette offre s’adresse aux TPE/PME du BTP ayant un volume administratif important ou qui souhaite un suivi renforcé.",
+    services: [
+      "Offre Confort incluse",
+      "Suivi administratif renforcé",
+      "Coordination administrative avancée",
+      "Transmission prioritaire des documents",
+      "Forte réactivité",
+    ],
+    benefit:
+      "Croissance : déléguez tout le “poids” administratif pour vous concentrer sur vos chantiers",
+    cta: "Appeler pour un accompagnement sur mesure",
+  },
 ];
 
 const Accompagnement = () => {
+  const { settings } = useSiteSettings();
+
   return (
     <Layout>
       <SEO pageId="accompagnement" />
-      {/* HERO */}
+
       <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground section-padding">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-primary-foreground/20 blur-3xl" />
@@ -81,28 +112,33 @@ const Accompagnement = () => {
         </div>
         <div className="container relative z-10">
           <motion.div
-            className="max-w-3xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary-foreground/10 text-sm font-medium mb-6 border border-primary-foreground/20">
-              Notre accompagnement
-            </span>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-6 leading-tight">
-              Un accompagnement pensé pour les pros du BTP
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-4 leading-tight">
+              Assistante administrative indépendante spécialisée BTP
             </h1>
-            <p className="text-lg text-primary-foreground/80 leading-relaxed max-w-2xl mx-auto">
-              Vous êtes artisan ou dirigeant d'une entreprise du BTP et l'administratif
-              vous fait perdre du temps ? ProxiZen BTP vous aide à tout structurer.
+            <p className="text-xl md:text-2xl text-secondary font-heading font-bold mb-6">
+              Île-de-France
+            </p>
+            <p className="text-lg text-primary-foreground/85 leading-relaxed max-w-3xl mx-auto">
+              Artisans du BTP, dirigeants de TPE/PME,
+            </p>
+            <p className="text-lg text-primary-foreground/85 leading-relaxed max-w-3xl mx-auto mt-3">
+              L’administratif vous prend trop de temps et complique la relation
+              avec votre cabinet comptable ? ProxizenBTP vous accompagne dans
+              l’organisation et la gestion administrative de votre entreprise,
+              afin de vous permettre de vous concentrer sur votre cœur de métier,
+              en toute sérénité.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* POUR QUI */}
       <section className="section-padding">
-        <div className="container max-w-3xl">
+        <div className="container">
           <motion.div
             className="text-center mb-12"
             initial="hidden"
@@ -110,92 +146,109 @@ const Accompagnement = () => {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <span className="text-sm font-semibold text-accent uppercase tracking-widest mb-3 block">
-              Pour qui ?
-            </span>
             <h2 className="text-3xl md:text-4xl font-heading font-bold">
-              Cet accompagnement est fait pour vous si :
+              UNE SOLUTION POUR DEUX BESOINS
             </h2>
           </motion.div>
           <motion.div
-            className="space-y-3"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
           >
-            {targetList.map((item, i) => (
-              <motion.div
-                key={i}
-                className="flex items-center gap-4 p-5 rounded-2xl bg-card border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300"
-                variants={fadeUp}
-              >
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="text-primary" size={20} />
-                </div>
-                <span className="font-medium">{item}</span>
-              </motion.div>
-            ))}
+            <motion.div
+              className="p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300"
+              variants={scaleIn}
+            >
+              <h3 className="text-xl font-heading font-bold mb-4">
+                Vous êtes artisan ou dirigeant BTP
+              </h3>
+              <ul className="space-y-3">
+                {needsArtisan.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm">
+                    <CheckCircle2 className="text-primary mt-0.5 shrink-0" size={18} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            <motion.div
+              className="p-7 rounded-2xl bg-card border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300"
+              variants={scaleIn}
+            >
+              <h3 className="text-xl font-heading font-bold mb-4">
+                Vous êtes cabinet comptable
+              </h3>
+              <ul className="space-y-3">
+                {needsCabinet.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm">
+                    <CheckCircle2 className="text-primary mt-0.5 shrink-0" size={18} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* MON ROLE */}
       <section className="section-padding bg-card">
-        <div className="container">
-          <motion.div
-            className="text-center mb-14"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-          >
-            <span className="text-sm font-semibold text-accent uppercase tracking-widest mb-3 block">
-              Services
-            </span>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold">
-              Mon rôle
-            </h2>
-          </motion.div>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={stagger}
-          >
-            {services.map((s, i) => (
-              <motion.div
-                key={i}
-                className="group p-7 rounded-2xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
-                variants={scaleIn}
-              >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/15 to-accent/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                  <s.icon className="text-primary" size={24} />
-                </div>
-                <h3 className="font-heading font-bold mb-2">{s.label}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* PROCESSUS */}
-      <section className="section-padding">
         <div className="container max-w-4xl">
           <motion.div
-            className="text-center mb-14"
+            className="text-center mb-12"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <span className="text-sm font-semibold text-accent uppercase tracking-widest mb-3 block">
-              Processus
-            </span>
             <h2 className="text-3xl md:text-4xl font-heading font-bold">
-              Comment ça se passe ?
+              FONCTIONNEMENT SIMPLIFIÉ
+            </h2>
+          </motion.div>
+          <motion.div
+            className="flex flex-col items-center text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={stagger}
+          >
+            {[
+              "Artisan / Entreprise BTP",
+              "ProxizenBTP – Assistance administrative",
+              "Cabinet comptable – Comptabilité, fiscalité, social",
+            ].map((line, index) => (
+              <motion.div
+                key={line}
+                variants={fadeUp}
+                className="w-full max-w-2xl"
+              >
+                <div className="p-5 rounded-2xl bg-background border border-border/60 font-medium">
+                  {line}
+                </div>
+                {index < 2 ? (
+                  <div className="py-4 flex justify-center">
+                    <ArrowDown className="text-primary" size={22} />
+                  </div>
+                ) : null}
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="section-padding">
+        <div className="container max-w-5xl">
+          <motion.div
+            className="text-center mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <h2 className="text-3xl md:text-4xl font-heading font-bold">
+              Comment se déroule l’accompagnement ?
             </h2>
           </motion.div>
           <motion.div
@@ -205,67 +258,184 @@ const Accompagnement = () => {
             viewport={{ once: true }}
             variants={stagger}
           >
-            {steps.map((step, i) => (
+            {processSteps.map((step, i) => (
               <motion.div
-                key={i}
+                key={step}
                 className="flex items-start gap-5 p-7 rounded-2xl bg-card border border-border/60 hover:shadow-md transition-all duration-300"
                 variants={fadeUp}
               >
                 <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shrink-0 text-primary-foreground font-heading font-extrabold text-lg shadow-lg shadow-primary/20">
                   {i + 1}
                 </div>
-                <div>
-                  <h3 className="font-heading font-bold mb-1.5">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
-                </div>
+                <p className="text-sm leading-relaxed">{step}</p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* DIFFERENCIATION */}
       <section className="section-padding bg-card">
         <div className="container">
           <motion.div
-            className="text-center mb-14"
+            className="text-center mb-12"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <span className="text-sm font-semibold text-accent uppercase tracking-widest mb-3 block">
-              Nos atouts
-            </span>
             <h2 className="text-3xl md:text-4xl font-heading font-bold">
-              Pourquoi choisir ProxiZen BTP ?
+              NOS OFFRES
             </h2>
+            <p className="text-muted-foreground mt-4 max-w-3xl mx-auto leading-relaxed">
+              Chaque entreprise ayant des besoins différents, nos accompagnements
+              sont personnalisés, sans forfait unique imposé.
+            </p>
           </motion.div>
+
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
           >
-            {diffPoints.map((d, i) => (
+            {offers.map((offer, index) => (
               <motion.div
-                key={i}
-                className="flex flex-col items-center text-center p-6 rounded-2xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300 group"
+                key={offer.title}
+                className={`p-7 rounded-2xl border transition-all duration-300 ${
+                  index === 1
+                    ? "bg-primary text-primary-foreground border-primary shadow-2xl shadow-primary/20"
+                    : "bg-background border-border/60 hover:border-primary/30 hover:shadow-md"
+                }`}
                 variants={scaleIn}
               >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/15 to-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <d.icon className="text-primary" size={22} />
-                </div>
-                <span className="font-heading font-bold text-sm mb-1.5">{d.label}</span>
-                <span className="text-xs text-muted-foreground leading-relaxed">{d.desc}</span>
+                <h3
+                  className={`text-xl font-heading font-extrabold mb-2 ${
+                    index === 1 ? "" : "text-primary"
+                  }`}
+                >
+                  {offer.title}
+                </h3>
+                <p
+                  className={`text-sm leading-relaxed mb-4 ${
+                    index === 1
+                      ? "text-primary-foreground/85"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {offer.subtitle}
+                </p>
+                <ul className="space-y-2 mb-5">
+                  {offer.services.map((item) => (
+                    <li
+                      key={item}
+                      className={`text-sm flex items-start gap-2 ${
+                        index === 1
+                          ? "text-primary-foreground"
+                          : "text-foreground"
+                      }`}
+                    >
+                      <span className="mt-1">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p
+                  className={`text-sm font-medium leading-relaxed ${
+                    index === 1
+                      ? "text-primary-foreground"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  Bénéfice : {offer.benefit}
+                </p>
+                {offer.cta ? (
+                  <Button
+                    asChild
+                    className="w-full mt-5"
+                    variant={index === 1 ? "secondary" : "default"}
+                  >
+                    <a
+                      href={settings.calendlyUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() =>
+                        trackCalendlyClick(
+                          index === 1
+                            ? "accompagnement-offre-confort"
+                            : "accompagnement-offre-premium",
+                        )
+                      }
+                    >
+                      {offer.cta}
+                    </a>
+                  </Button>
+                ) : null}
               </motion.div>
             ))}
+          </motion.div>
+
+          <motion.div
+            className="mt-6 p-7 rounded-2xl bg-background border border-border/60"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <h3 className="text-xl font-heading font-bold mb-3">
+              Mission à la carte
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Tri, classement et mise à jour d'une comptabilité en retard
+              (plusieurs mois).
+            </p>
+            <p className="text-sm font-medium mt-3">
+              Bénéfice : Liberté : Une intervention ponctuelle pour repartir sur
+              des bases saines
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="mt-8 space-y-2 text-sm text-muted-foreground max-w-4xl"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <p className="font-medium text-foreground">Note tarifaire :</p>
+            <p>
+              Les tarifs sont ajustables selon le volume de factures, la taille
+              de l’entreprise et la complexité administrative.
+            </p>
+            <p>
+              Un devis personnalisé est établi après un premier échange.
+            </p>
           </motion.div>
         </div>
       </section>
 
-      <SectionCTA />
+      <section className="section-padding">
+        <div className="container max-w-4xl">
+          <motion.div
+            className="p-8 md:p-10 rounded-3xl bg-card border border-border/60"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+          >
+            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-5">
+              Cadre d’intervention
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              ProxizenBTP intervient exclusivement en assistance administrative.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mt-3">
+              Les missions comptables, fiscales et sociales sont réalisées par le
+              cabinet comptable.
+            </p>
+          </motion.div>
+        </div>
+      </section>
     </Layout>
   );
 };

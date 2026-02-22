@@ -7,16 +7,20 @@ import { trackCalendlyClick } from "@/lib/site-insights";
 
 interface SectionCTAProps {
   title?: string;
+  description?: string;
   buttonText?: string;
   to?: string;
   href?: string;
+  hideButton?: boolean;
 }
 
 const SectionCTA = ({
   title,
+  description,
   buttonText,
   to = "/contact",
   href,
+  hideButton = false,
 }: SectionCTAProps) => {
   const { settings } = useSiteSettings();
   const resolvedTitle = title ?? settings.finalCtaTitle;
@@ -41,38 +45,51 @@ const SectionCTA = ({
         >
           {resolvedTitle}
         </motion.h2>
+        {description ? (
+          <motion.p
+            className="text-base md:text-lg text-primary-foreground/85 max-w-3xl mx-auto mb-10 leading-relaxed whitespace-pre-line"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.12, duration: 0.5 }}
+          >
+            {description}
+          </motion.p>
+        ) : null}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
-          <Button
-            asChild
-            size="lg"
-            className="text-base px-10 bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg shadow-primary/20 group"
-          >
-            {href ? (
-              <a
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => {
-                  if (shouldTrackCalendly) {
-                    trackCalendlyClick("section-cta");
-                  }
-                }}
-              >
-                {resolvedButtonText}
-                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
-              </a>
-            ) : (
-              <Link to={to}>
-                {resolvedButtonText}
-                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
-              </Link>
-            )}
-          </Button>
+          {hideButton ? null : (
+            <Button
+              asChild
+              size="lg"
+              className="text-base px-10 bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg shadow-primary/20 group"
+            >
+              {href ? (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => {
+                    if (shouldTrackCalendly) {
+                      trackCalendlyClick("section-cta");
+                    }
+                  }}
+                >
+                  {resolvedButtonText}
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+                </a>
+              ) : (
+                <Link to={to}>
+                  {resolvedButtonText}
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
+                </Link>
+              )}
+            </Button>
+          )}
         </motion.div>
       </div>
     </section>

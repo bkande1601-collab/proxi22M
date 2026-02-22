@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, Eye, Heart, Users } from "lucide-react";
+import { Shield, Eye, Heart, Users, Handshake, Bolt } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionCTA from "@/components/SectionCTA";
 import SEO from "@/components/SEO";
@@ -13,99 +13,114 @@ const fadeUp = {
   }),
 };
 
-const valeurs = [
-  { icon: Shield, title: "Organisation", desc: "Une structure administrative claire et efficace pour votre entreprise." },
-  { icon: Eye, title: "Clarté", desc: "Des processus transparents et compréhensibles pour tous." },
-  { icon: Heart, title: "Fiabilité", desc: "Un suivi rigoureux sur lequel vous pouvez compter." },
-  { icon: Users, title: "Proximité humaine", desc: "Un accompagnement personnalisé, à l'écoute de vos besoins." },
+const apports = [
+  {
+    icon: Eye,
+    text: "Une gestion administrative claire et structurée",
+  },
+  {
+    icon: Shield,
+    text: "Un suivi régulier, sans jugement ni pression",
+  },
+  {
+    icon: Handshake,
+    text: "Une vraie relation de confiance",
+  },
+  {
+    icon: Users,
+    text: "Une communication simple, humaine et transparente",
+  },
+];
+
+const confiance = [
+  { icon: Shield, text: "Spécialisation BTP" },
+  { icon: Eye, text: "Vision terrain + vision administrative" },
+  { icon: Heart, text: "Accompagnement personnalisé" },
+  { icon: Bolt, text: "Discrétion, fiabilité et réactivité" },
 ];
 
 const APropos = () => {
   return (
     <Layout>
       <SEO pageId="apropos" />
-      {/* HERO */}
+
       <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container text-center">
           <motion.h1
-            className="text-3xl md:text-5xl font-heading font-bold mb-4"
+            className="text-3xl md:text-5xl font-heading font-bold mb-4 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            À propos de ProxiZen BTP
+            L’administration du BTP, en plus simple, plus claire, plus sereine.
           </motion.h1>
-          <p className="text-lg text-primary-foreground/85 max-w-2xl mx-auto">
-            Une mission simple : aider les artisans et entreprises du BTP à se concentrer sur leur métier.
-          </p>
         </div>
       </section>
 
-      {/* STORY */}
       <section className="py-16 md:py-24 bg-card">
-        <div className="container max-w-3xl">
+        <div className="container max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="prose prose-lg max-w-none"
+            className="space-y-4 text-muted-foreground leading-relaxed"
           >
-            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6 text-foreground">
-              Notre histoire
-            </h2>
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>
-                ProxiZen BTP est né d'un constat simple : de nombreux artisans et chefs d'entreprise
-                du bâtiment passent un temps considérable sur des tâches administratives au détriment
-                de leur cœur de métier.
-              </p>
-              <p>
-                Factures en retard, documents éparpillés, communication difficile avec le cabinet
-                comptable… Ces problèmes du quotidien créent du stress et font perdre de l'énergie
-                à des professionnels qui devraient pouvoir se concentrer sur leurs chantiers.
-              </p>
-              <p>
-                C'est pourquoi ProxiZen BTP propose un accompagnement administratif sur mesure,
-                spécialement conçu pour les réalités du secteur du BTP. Notre approche allie
-                expertise administrative et compréhension du terrain, pour une collaboration
-                efficace et humaine.
-              </p>
-            </div>
+            <p>
+              ProxyZen BTP est né d’un constat simple : dans le BTP, le temps est
+              précieux et l’administratif devient vite une charge lourde,
+              stressante et chronophage pour les artisans et dirigeants de
+              petites structures.
+            </p>
+            <p>
+              Devis, factures, relances, dossiers, échanges avec les organismes…
+              Pendant que vous êtes sur vos chantiers, l’administratif
+              s’accumule.
+            </p>
+            <p>
+              Ma mission est simple : vous libérer l’esprit pour que vous
+              puissiez vous concentrer sur votre cœur de métier.
+            </p>
           </motion.div>
         </div>
       </section>
 
-      {/* VISION */}
       <section className="py-16 md:py-24">
-        <div className="container max-w-3xl">
+        <div className="container max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             <h2 className="text-2xl md:text-3xl font-heading font-bold mb-6">
-              Notre vision
+              Qui suis-je ?
             </h2>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              Nous croyons que chaque artisan mérite un accompagnement administratif de qualité,
-              adapté à son rythme et ses besoins. Notre objectif est de devenir le partenaire
-              de confiance qui libère du temps et de la sérénité pour que vous puissiez vous
-              concentrer sur ce que vous faites de mieux : bâtir.
-            </p>
+            <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <p>
+                Je suis assistante administrative indépendante, spécialisée dans
+                le secteur du BTP. J’ai travaillé plusieurs années au sein
+                d’entreprises du bâtiment, au plus près du terrain, notamment
+                dans la peinture, ce qui m’a permis de comprendre les réalités
+                concrètes des artisans.
+              </p>
+              <p>
+                ProxyZen BTP n’est pas une assistance administrative généraliste.
+                C’est un accompagnement pensé pour le BTP, avec ses contraintes,
+                son rythme et ses priorités.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* VALEURS */}
       <section className="py-16 md:py-24 bg-card">
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-heading font-bold text-center mb-12">
-            Nos valeurs
+            Ce que je vous apporte
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            {valeurs.map((v, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            {apports.map((item, i) => (
               <motion.div
-                key={i}
-                className="flex flex-col items-center text-center p-6 rounded-xl bg-background border"
+                key={item.text}
+                className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
@@ -113,17 +128,77 @@ const APropos = () => {
                 custom={i}
               >
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <v.icon className="text-primary" size={24} />
+                  <item.icon className="text-primary" size={24} />
                 </div>
-                <h3 className="font-heading font-bold mb-2">{v.title}</h3>
-                <p className="text-sm text-muted-foreground">{v.desc}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {item.text}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <SectionCTA title="Envie de nous connaître davantage ?" buttonText="Prendre contact" />
+      <section className="py-16 md:py-24">
+        <div className="container max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="p-8 md:p-10 rounded-3xl bg-card border border-border/60"
+          >
+            <h2 className="text-2xl md:text-3xl font-heading font-bold mb-5">
+              Une approche zen… mais efficace
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Le nom ProxyZen n’est pas un hasard. Je crois fermement qu’une
+              entreprise fonctionne mieux quand l’esprit est clair.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mt-3">
+              Pas de jargon inutile. Pas de complexité artificielle. Pas de
+              pression.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mt-3">
+              Juste une gestion administrative rigoureuse, fluide et apaisée, au
+              service de votre activité.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24 bg-card">
+        <div className="container">
+          <h2 className="text-2xl md:text-3xl font-heading font-bold text-center mb-12">
+            Pourquoi me faire confiance ?
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            {confiance.map((item, i) => (
+              <motion.div
+                key={item.text}
+                className="flex flex-col items-center text-center p-6 rounded-xl bg-background border border-border/60 hover:border-primary/30 hover:shadow-md transition-all duration-300"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeUp}
+                custom={i}
+              >
+                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <item.icon className="text-primary" size={24} />
+                </div>
+                <p className="text-sm font-medium">
+                  {item.text}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SectionCTA
+        title="Envie d’en parler ?"
+        description="Chaque entreprise est différente. C’est pourquoi je privilégie le contact direct pour comprendre vos besoins réels et vous proposer une solution adaptée."
+        hideButton
+      />
     </Layout>
   );
 };
