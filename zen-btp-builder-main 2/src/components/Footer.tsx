@@ -66,7 +66,7 @@ const Footer = () => {
             to="/acces-prive"
             className="text-background/50 hover:text-background transition-colors"
           >
-            Acces prive
+            Back-office
           </Link>
         </div>
       </div>

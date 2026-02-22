@@ -43,7 +43,7 @@ const Header = () => {
           }`}
         >
           <img
-            src="/proxizen-logo.svg"
+            src={settings.logoUrl}
             alt="Logo ProxiZen BTP"
             className="h-9 md:h-11 w-auto"
             loading="eager"

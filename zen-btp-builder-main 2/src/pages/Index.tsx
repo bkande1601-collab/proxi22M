@@ -89,6 +89,7 @@ const values = [
 const Index = () => {
   const heroRef = useRef(null);
   const { settings } = useSiteSettings();
+  const heroImageSrc = settings.heroImageUrl || heroBtp;
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -102,7 +103,7 @@ const Index = () => {
       <section ref={heroRef} className="relative overflow-hidden min-h-[90vh] flex items-center">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <img
-            src={heroBtp}
+            src={heroImageSrc}
             alt="Chantier BTP professionnel"
             className="w-full h-full object-cover scale-110"
             loading="eager"
@@ -123,23 +124,22 @@ const Index = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Spécialiste BTP • Accompagnement sur-mesure
+              {settings.heroBadgeText}
             </motion.span>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-primary-foreground leading-[1.1] mb-6">
-              Simplifiez
+              {settings.heroTitleLine1}
               <br />
-              <span className="text-secondary">l'administratif</span>
+              <span className="text-secondary">{settings.heroTitleLine2}</span>
               <br />
-              de votre entreprise
+              {settings.heroTitleLine3}
             </h1>
             <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 leading-relaxed max-w-lg">
-              ProxiZen BTP accompagne les artisans et entreprises du bâtiment
-              dans leur organisation administrative.
+              {settings.heroDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="text-base px-8 bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg shadow-accent/25">
                 <a href={settings.calendlyUrl} target="_blank" rel="noreferrer">
-                  Prendre rendez-vous
+                  {settings.heroPrimaryButtonText}
                   <ArrowRight className="ml-2" size={18} />
                 </a>
               </Button>

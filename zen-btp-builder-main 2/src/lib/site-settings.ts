@@ -1,11 +1,32 @@
 export interface SiteSettings {
   contactEmail: string;
   calendlyUrl: string;
+  logoUrl: string;
+  heroImageUrl: string;
+  heroBadgeText: string;
+  heroTitleLine1: string;
+  heroTitleLine2: string;
+  heroTitleLine3: string;
+  heroDescription: string;
+  heroPrimaryButtonText: string;
+  finalCtaTitle: string;
+  finalCtaButtonText: string;
 }
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   contactEmail: "proxizenbtp@gmail.com",
   calendlyUrl: "https://calendly.com/proxizenbtp/30min",
+  logoUrl: "/proxizen-logo.svg",
+  heroImageUrl: "",
+  heroBadgeText: "Specialiste BTP • Accompagnement sur-mesure",
+  heroTitleLine1: "Simplifiez",
+  heroTitleLine2: "l'administratif",
+  heroTitleLine3: "de votre entreprise",
+  heroDescription:
+    "ProxiZen BTP accompagne les artisans et entreprises du batiment dans leur organisation administrative.",
+  heroPrimaryButtonText: "Prendre rendez-vous",
+  finalCtaTitle: "Et si vous gagniez du temps sur votre administratif ?",
+  finalCtaButtonText: "Planifier un echange gratuit",
 };
 
 const SITE_SETTINGS_STORAGE_KEY = "proxizen-site-settings-v1";
@@ -16,6 +37,14 @@ const normalizeEmail = (value: string) => value.trim().toLowerCase();
 
 const normalizeCalendlyUrl = (value: string) => value.trim();
 
+const sanitizeText = (value: string | undefined, fallback: string, maxLength = 400) => {
+  const normalizedValue = (value ?? "").trim();
+  if (!normalizedValue) {
+    return fallback;
+  }
+  return normalizedValue.slice(0, maxLength);
+};
+
 const isValidCalendlyUrl = (value: string) => {
   try {
     const url = new URL(value);
@@ -23,6 +52,33 @@ const isValidCalendlyUrl = (value: string) => {
   } catch {
     return false;
   }
+};
+
+const sanitizeImageSource = (value: string | undefined, fallback: string) => {
+  const normalizedValue = (value ?? "").trim();
+
+  if (!normalizedValue) {
+    return fallback;
+  }
+
+  if (normalizedValue.startsWith("data:image/")) {
+    return normalizedValue;
+  }
+
+  if (normalizedValue.startsWith("/")) {
+    return normalizedValue;
+  }
+
+  try {
+    const url = new URL(normalizedValue);
+    if (url.protocol === "http:" || url.protocol === "https:") {
+      return normalizedValue;
+    }
+  } catch {
+    return fallback;
+  }
+
+  return fallback;
 };
 
 export const sanitizeSiteSettings = (value: Partial<SiteSettings>): SiteSettings => {
@@ -36,6 +92,24 @@ export const sanitizeSiteSettings = (value: Partial<SiteSettings>): SiteSettings
     calendlyUrl: isValidCalendlyUrl(candidateCalendly)
       ? candidateCalendly
       : DEFAULT_SITE_SETTINGS.calendlyUrl,
+    logoUrl: sanitizeImageSource(value.logoUrl, DEFAULT_SITE_SETTINGS.logoUrl),
+    heroImageUrl: sanitizeImageSource(value.heroImageUrl, DEFAULT_SITE_SETTINGS.heroImageUrl),
+    heroBadgeText: sanitizeText(value.heroBadgeText, DEFAULT_SITE_SETTINGS.heroBadgeText, 120),
+    heroTitleLine1: sanitizeText(value.heroTitleLine1, DEFAULT_SITE_SETTINGS.heroTitleLine1, 80),
+    heroTitleLine2: sanitizeText(value.heroTitleLine2, DEFAULT_SITE_SETTINGS.heroTitleLine2, 80),
+    heroTitleLine3: sanitizeText(value.heroTitleLine3, DEFAULT_SITE_SETTINGS.heroTitleLine3, 80),
+    heroDescription: sanitizeText(value.heroDescription, DEFAULT_SITE_SETTINGS.heroDescription, 360),
+    heroPrimaryButtonText: sanitizeText(
+      value.heroPrimaryButtonText,
+      DEFAULT_SITE_SETTINGS.heroPrimaryButtonText,
+      60,
+    ),
+    finalCtaTitle: sanitizeText(value.finalCtaTitle, DEFAULT_SITE_SETTINGS.finalCtaTitle, 160),
+    finalCtaButtonText: sanitizeText(
+      value.finalCtaButtonText,
+      DEFAULT_SITE_SETTINGS.finalCtaButtonText,
+      80,
+    ),
   };
 };
 
@@ -62,10 +136,14 @@ export const storeSiteSettings = (settings: SiteSettings) => {
     return;
   }
 
-  window.localStorage.setItem(
-    SITE_SETTINGS_STORAGE_KEY,
-    JSON.stringify(sanitizeSiteSettings(settings)),
-  );
+  try {
+    window.localStorage.setItem(
+      SITE_SETTINGS_STORAGE_KEY,
+      JSON.stringify(sanitizeSiteSettings(settings)),
+    );
+  } catch {
+    // Ignore localStorage quota errors and keep current in-memory settings.
+  }
 };
 
 export const resetStoredSiteSettings = () => {

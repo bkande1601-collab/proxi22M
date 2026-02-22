@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useSiteSettings } from "@/components/SiteSettingsProvider";
 
 interface SectionCTAProps {
   title?: string;
@@ -11,11 +12,15 @@ interface SectionCTAProps {
 }
 
 const SectionCTA = ({
-  title = "Et si vous gagniez du temps sur votre administratif ?",
-  buttonText = "Planifier un échange gratuit",
+  title,
+  buttonText,
   to = "/contact",
   href,
 }: SectionCTAProps) => {
+  const { settings } = useSiteSettings();
+  const resolvedTitle = title ?? settings.finalCtaTitle;
+  const resolvedButtonText = buttonText ?? settings.finalCtaButtonText;
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground section-padding">
       {/* Decorative elements */}
@@ -32,7 +37,7 @@ const SectionCTA = ({
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          {title}
+          {resolvedTitle}
         </motion.h2>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -47,12 +52,12 @@ const SectionCTA = ({
           >
             {href ? (
               <a href={href} target="_blank" rel="noreferrer">
-                {buttonText}
+                {resolvedButtonText}
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
               </a>
             ) : (
               <Link to={to}>
-                {buttonText}
+                {resolvedButtonText}
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
               </Link>
             )}
