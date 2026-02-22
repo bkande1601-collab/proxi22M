@@ -30,6 +30,8 @@ const METRICS_STORAGE_KEY = "proxizen-site-metrics-v1";
 const CONTACT_REQUESTS_STORAGE_KEY = "proxizen-contact-requests-v1";
 const KNOWN_SESSIONS_STORAGE_KEY = "proxizen-known-sessions-v1";
 const CURRENT_SESSION_STORAGE_KEY = "proxizen-current-session-v1";
+const SITE_SETTINGS_STORAGE_KEY = "proxizen-site-settings-v1";
+const CONTACT_REQUEST_ADDED_EVENT = "proxizen:contact-request-added";
 
 const DEFAULT_SITE_METRICS: SiteMetrics = {
   totalPageViews: 0,
@@ -67,15 +69,23 @@ const readStorage = <T>(key: string, fallback: T): T => {
   }
 };
 
-const writeStorage = <T>(key: string, value: T) => {
+const writeStorage = <T>(key: string, value: T): boolean => {
   if (!isBrowser()) {
-    return;
+    return false;
   }
 
   try {
     window.localStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch {
-    // Ignore local storage write errors.
+    // If storage is full, remove heavy legacy content and retry once.
+    try {
+      window.localStorage.removeItem(SITE_SETTINGS_STORAGE_KEY);
+      window.localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch {
+      return false;
+    }
   }
 };
 
@@ -199,7 +209,7 @@ export const getContactRequests = (): ContactRequest[] =>
 
 export const addContactRequest = (input: ContactRequestInput) => {
   if (!isBrowser()) {
-    return;
+    return false;
   }
 
   const nextRequest: ContactRequest = {
@@ -214,7 +224,10 @@ export const addContactRequest = (input: ContactRequestInput) => {
 
   const requests = getContactRequests();
   const updatedRequests = [nextRequest, ...requests].slice(0, 500);
-  writeStorage(CONTACT_REQUESTS_STORAGE_KEY, updatedRequests);
+  const hasSavedRequests = writeStorage(CONTACT_REQUESTS_STORAGE_KEY, updatedRequests);
+  if (!hasSavedRequests) {
+    return false;
+  }
 
   const metrics = readMetrics();
   const nextMetrics: SiteMetrics = {
@@ -223,16 +236,22 @@ export const addContactRequest = (input: ContactRequestInput) => {
     updatedAt: new Date().toISOString(),
   };
   writeMetrics(nextMetrics);
+
+  window.dispatchEvent(new CustomEvent(CONTACT_REQUEST_ADDED_EVENT));
+  return true;
 };
 
 export const clearContactRequests = () => {
   if (!isBrowser()) {
-    return;
+    return false;
   }
 
   try {
     window.localStorage.removeItem(CONTACT_REQUESTS_STORAGE_KEY);
+    return true;
   } catch {
-    // Ignore remove errors.
+    return false;
   }
 };
+
+export const CONTACT_REQUEST_ADDED_EVENT_NAME = CONTACT_REQUEST_ADDED_EVENT;

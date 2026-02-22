@@ -57,7 +57,7 @@ const Footer = () => {
               onClick={() => trackCalendlyClick("footer")}
               className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:text-accent/80 transition-colors"
             >
-              Planifier un échange gratuit →
+              Prendre RDV →
             </a>
           </div>
         </div>

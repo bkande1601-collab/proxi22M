@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import {
+  CONTACT_REQUEST_ADDED_EVENT_NAME,
   clearContactRequests,
   ContactRequest,
   getContactRequests,
@@ -73,7 +74,17 @@ const AccesPrive = () => {
 
     refreshDashboard();
     const timer = window.setInterval(refreshDashboard, 15000);
-    return () => window.clearInterval(timer);
+    const onStorage = () => refreshDashboard();
+    const onContactAdded = () => refreshDashboard();
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(CONTACT_REQUEST_ADDED_EVENT_NAME, onContactAdded);
+
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(CONTACT_REQUEST_ADDED_EVENT_NAME, onContactAdded);
+    };
   }, [isAuthenticated]);
 
   const topPages = useMemo(

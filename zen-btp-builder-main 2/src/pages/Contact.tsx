@@ -10,34 +10,112 @@ import Layout from "@/components/Layout";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
 import { addContactRequest } from "@/lib/site-insights";
 
+interface ContactPayload {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  message: string;
+}
+
+const sendContactEmail = async (
+  payload: ContactPayload,
+  recipientEmail: string,
+) => {
+  try {
+    const response = await fetch(
+      `https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: `Nouvelle demande client - ${payload.name || "Sans nom"}`,
+          _template: "table",
+          _captcha: "false",
+          nom: payload.name,
+          entreprise: payload.company,
+          email: payload.email,
+          telephone: payload.phone,
+          message: payload.message,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      return false;
+    }
+
+    const result = (await response.json()) as { success?: string | boolean };
+    return result.success === true || result.success === "true";
+  } catch {
+    return false;
+  }
+};
+
 const Contact = () => {
   const { toast } = useToast();
   const { settings } = useSiteSettings();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    addContactRequest({
+    const payload: ContactPayload = {
       name: String(formData.get("name") ?? ""),
       company: String(formData.get("company") ?? ""),
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
       message: String(formData.get("message") ?? ""),
-    });
+    };
 
-    // Simulate submission
-    setTimeout(() => {
-      setLoading(false);
+    const hasSavedInDashboard = addContactRequest(payload);
+    const hasMailSent = await sendContactEmail(payload, settings.contactEmail);
+
+    setLoading(false);
+
+    if (hasSavedInDashboard && hasMailSent) {
       toast({
-        title: "Message envoyé !",
-        description: "Nous vous répondrons dans les meilleurs délais.",
+        title: "Message envoye",
+        description: "Votre demande est enregistree et un email a ete transmis.",
       });
       form.reset();
-    }, 1000);
+      return;
+    }
+
+    if (hasSavedInDashboard && !hasMailSent) {
+      toast({
+        title: "Demande enregistree",
+        description:
+          "La demande est visible dans le dashboard, mais l'envoi email a echoue. Verifiez la validation FormSubmit.",
+        variant: "destructive",
+      });
+      form.reset();
+      return;
+    }
+
+    if (!hasSavedInDashboard && hasMailSent) {
+      toast({
+        title: "Email envoye",
+        description:
+          "Le mail a ete transmis, mais la demande n'a pas pu etre stockee dans le dashboard local.",
+        variant: "destructive",
+      });
+      form.reset();
+      return;
+    }
+
+    toast({
+      title: "Echec de l'envoi",
+      description:
+        "Impossible d'enregistrer la demande. Rechargez la page puis recommencez.",
+      variant: "destructive",
+    });
   };
 
   return (

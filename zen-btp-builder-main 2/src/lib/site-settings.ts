@@ -24,12 +24,13 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   heroTitleLine3: "de votre entreprise",
   heroDescription:
     "ProxiZen BTP accompagne les artisans et entreprises du batiment dans leur organisation administrative.",
-  heroPrimaryButtonText: "Prendre rendez-vous",
+  heroPrimaryButtonText: "Prendre RDV",
   finalCtaTitle: "Et si vous gagniez du temps sur votre administratif ?",
   finalCtaButtonText: "Planifier un echange gratuit",
 };
 
 const SITE_SETTINGS_STORAGE_KEY = "proxizen-site-settings-v1";
+const MAX_INLINE_IMAGE_LENGTH = 180_000;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -62,6 +63,9 @@ const sanitizeImageSource = (value: string | undefined, fallback: string) => {
   }
 
   if (normalizedValue.startsWith("data:image/")) {
+    if (normalizedValue.length > MAX_INLINE_IMAGE_LENGTH) {
+      return fallback;
+    }
     return normalizedValue;
   }
 
@@ -125,7 +129,13 @@ export const getStoredSiteSettings = (): SiteSettings => {
     }
 
     const parsed = JSON.parse(raw) as Partial<SiteSettings>;
-    return sanitizeSiteSettings(parsed);
+    const sanitized = sanitizeSiteSettings(parsed);
+    const parsedAsString = JSON.stringify(parsed);
+    const sanitizedAsString = JSON.stringify(sanitized);
+    if (parsedAsString !== sanitizedAsString) {
+      storeSiteSettings(sanitized);
+    }
+    return sanitized;
   } catch {
     return DEFAULT_SITE_SETTINGS;
   }

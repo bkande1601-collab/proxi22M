@@ -83,7 +83,7 @@ const Header = () => {
               rel="noreferrer"
               onClick={() => trackCalendlyClick("header-desktop")}
             >
-              Demander un échange
+              Prendre RDV
             </a>
           </Button>
         </div>
@@ -136,7 +136,7 @@ const Header = () => {
                       setMobileOpen(false);
                     }}
                   >
-                    Demander un échange
+                    Prendre RDV
                   </a>
                 </Button>
               </div>
