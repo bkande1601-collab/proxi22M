@@ -119,16 +119,16 @@ const Accompagnement = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-4 leading-tight">
-              Assistante administrative indépendante spécialisée BTP
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-4 leading-tight">
+              Assistance administrative indépendante spécialisée BTP
             </h1>
-            <p className="text-xl md:text-2xl text-secondary font-heading font-bold mb-6">
+            <p className="text-lg sm:text-xl md:text-2xl text-secondary font-heading font-bold mb-6">
               Île-de-France
             </p>
-            <p className="text-lg text-primary-foreground/85 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg text-primary-foreground/85 leading-relaxed max-w-3xl mx-auto">
               Artisans du BTP, dirigeants de TPE/PME,
             </p>
-            <p className="text-lg text-primary-foreground/85 leading-relaxed max-w-3xl mx-auto mt-3">
+            <p className="text-base sm:text-lg text-primary-foreground/85 leading-relaxed max-w-3xl mx-auto mt-3">
               L’administratif vous prend trop de temps et complique la relation
               avec votre cabinet comptable ? ProxizenBTP vous accompagne dans
               l’organisation et la gestion administrative de votre entreprise,
@@ -148,7 +148,7 @@ const Accompagnement = () => {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-heading font-bold">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold">
               UNE SOLUTION POUR DEUX BESOINS
             </h2>
           </motion.div>
@@ -211,7 +211,7 @@ const Accompagnement = () => {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-heading font-bold">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold">
               FONCTIONNEMENT SIMPLIFIÉ
             </h2>
           </motion.div>
@@ -226,10 +226,10 @@ const Accompagnement = () => {
               {simplifiedFlow.map((line, index) => (
                 <div
                   key={line}
-                  className="flex items-center md:flex-1 md:min-w-0 gap-2"
+                  className="flex flex-col md:flex-row items-center md:flex-1 md:min-w-0 gap-2"
                 >
                   <motion.div
-                    className="w-full p-5 rounded-2xl bg-background border border-border/60 font-medium text-center shadow-sm hover:shadow-md transition-shadow"
+                    className="w-full p-4 sm:p-5 rounded-2xl bg-background border border-border/60 font-medium text-sm sm:text-base text-center shadow-sm hover:shadow-md transition-shadow"
                     variants={scaleIn}
                   >
                     {line}
@@ -262,12 +262,12 @@ const Accompagnement = () => {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-heading font-bold">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold">
               Comment se déroule l’accompagnement ?
             </h2>
           </motion.div>
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -276,7 +276,7 @@ const Accompagnement = () => {
             {processSteps.map((step, i) => (
               <motion.div
                 key={step}
-                className="flex items-start gap-5 p-7 rounded-2xl bg-card border border-border/60 hover:shadow-md transition-all duration-300"
+                className="flex items-start gap-4 sm:gap-5 p-5 sm:p-7 rounded-2xl bg-card border border-border/60 hover:shadow-md transition-all duration-300"
                 variants={fadeUp}
               >
                 <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shrink-0 text-primary-foreground font-heading font-extrabold text-lg shadow-lg shadow-primary/20">
@@ -298,7 +298,7 @@ const Accompagnement = () => {
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <h2 className="text-3xl md:text-4xl font-heading font-bold">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold">
               NOS OFFRES
             </h2>
             <p className="text-muted-foreground mt-4 max-w-3xl mx-auto leading-relaxed text-sm">
@@ -308,7 +308,7 @@ const Accompagnement = () => {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -317,7 +317,7 @@ const Accompagnement = () => {
             {offers.map((offer, index) => (
               <motion.div
                 key={offer.title}
-                className={`p-6 rounded-2xl border transition-all duration-300 flex flex-col h-full ${
+                className={`p-5 sm:p-6 rounded-2xl border transition-all duration-300 flex flex-col h-full ${
                   index === 1
                     ? "bg-primary text-primary-foreground border-primary shadow-2xl shadow-primary/20"
                     : "bg-background border-border/60 hover:border-primary/30 hover:shadow-md"
@@ -367,7 +367,7 @@ const Accompagnement = () => {
                 <div className="mt-auto pt-5">
                   <Button
                     asChild
-                    className="w-full h-auto min-h-10 whitespace-normal text-center leading-snug px-3 py-2"
+                    className="w-full h-auto min-h-10 whitespace-normal text-center leading-snug text-xs sm:text-sm px-3 py-2"
                     variant={index === 1 ? "secondary" : "default"}
                   >
                     <Link to="/offres">
