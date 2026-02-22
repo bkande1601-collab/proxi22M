@@ -12,7 +12,7 @@ const NotFound = () => {
   return (
     <>
       <SEO
-        title="Page introuvable - ProxizenBTP"
+        title="Page introuvable - ProxiZen BTP"
         description="La page demandee est introuvable."
         noindex
       />

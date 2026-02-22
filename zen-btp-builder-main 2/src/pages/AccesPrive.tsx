@@ -229,7 +229,7 @@ const AccesPrive = () => {
   return (
     <Layout>
       <SEO
-        title="Dashboard prive - ProxizenBTP"
+        title="Dashboard prive - ProxiZen BTP"
         description="Suivi prive des demandes clients et statistiques."
         noindex
       />

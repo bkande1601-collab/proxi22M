@@ -200,7 +200,7 @@ const AccesPriveSeoEditor = () => {
 
   return (
     <Layout>
-      <SEO title="Edition SEO - ProxizenBTP" noindex />
+      <SEO title="Edition SEO - ProxiZen BTP" noindex />
       <section className="py-16 md:py-24">
         <div className="container max-w-5xl">
           {!isAuthenticated ? (

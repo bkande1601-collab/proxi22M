@@ -53,7 +53,7 @@ const processSteps = [
 
 const simplifiedFlow = [
   "Artisan / Entreprise BTP",
-  "ProxizenBTP – Assistance administrative",
+  "ProxiZen BTP – Assistance administrative",
   "Cabinet comptable – Comptabilité, fiscalité, social",
 ];
 
@@ -130,7 +130,7 @@ const Accompagnement = () => {
             </p>
             <p className="text-base sm:text-lg text-primary-foreground/85 leading-relaxed max-w-3xl mx-auto mt-3">
               L’administratif vous prend trop de temps et complique la relation
-              avec votre cabinet comptable ? ProxizenBTP vous accompagne dans
+              avec votre cabinet comptable ? ProxiZen BTP vous accompagne dans
               l’organisation et la gestion administrative de votre entreprise,
               afin de vous permettre de vous concentrer sur votre cœur de métier,
               en toute sérénité.
@@ -433,7 +433,7 @@ const Accompagnement = () => {
               Cadre d’intervention
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              ProxizenBTP intervient exclusivement en assistance administrative.
+              ProxiZen BTP intervient exclusivement en assistance administrative.
             </p>
             <p className="text-muted-foreground leading-relaxed mt-3">
               Les missions comptables, fiscales et sociales sont réalisées par le

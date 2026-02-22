@@ -79,8 +79,8 @@ const AccesPriveSeo = () => {
   return (
     <Layout>
       <SEO
-        title="Gestion SEO - ProxizenBTP"
-        description="Administration SEO privee de ProxizenBTP."
+        title="Gestion SEO - ProxiZen BTP"
+        description="Administration SEO privee de ProxiZen BTP."
         noindex
       />
       <section className="py-16 md:py-24">

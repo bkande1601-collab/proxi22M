@@ -1,17 +1,17 @@
 export const siteConfig = {
-  name: "ProxizenBTP",
+  name: "ProxiZen BTP",
   domain: "proxizenbtp.fr",
   url: "https://proxizenbtp.fr",
-  defaultTitle: "ProxizenBTP - Accompagnement administratif BTP",
+  defaultTitle: "ProxiZen BTP - Assistance administrative BTP",
   defaultDescription:
-    "Liberez-vous de l'administratif. ProxizenBTP structure votre gestion et simplifie votre relation avec votre cabinet comptable.",
+    "Liberez-vous de l'administratif. ProxiZen BTP structure votre gestion et simplifie votre relation avec votre cabinet comptable.",
   locale: "fr_FR",
   email: "contact@proxizenbtp.fr",
-  author: "ProxizenBTP",
+  author: "ProxiZen BTP",
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    siteName: "ProxizenBTP",
+    siteName: "ProxiZen BTP",
     images: {
       default: "/og-default.png",
       width: 1200,
@@ -37,58 +37,58 @@ export const pagesConfig = {
   home: {
     slug: "home",
     path: "/",
-    title: "ProxizenBTP - Accompagnement administratif BTP",
+    title: "ProxiZen BTP - Assistance administrative BTP",
     description:
-      "Liberez-vous de l'administratif. ProxizenBTP structure votre gestion administrative et simplifie votre relation avec votre cabinet comptable.",
+      "Liberez-vous de l'administratif. ProxiZen BTP structure votre gestion administrative et simplifie votre relation avec votre cabinet comptable.",
     keywords:
-      "BTP, administratif, comptabilite, artisan, TPE, gestion, accompagnement",
+      "ProxiZen BTP, proxizen btp, proxizenbtp, assistance administrative BTP, administratif, comptabilite, artisan, TPE, gestion, accompagnement",
     ogImage: "/og-home.png",
   },
   accompagnement: {
     slug: "accompagnement",
     path: "/accompagnement",
-    title: "Accompagnement sur-mesure - ProxizenBTP",
+    title: "Accompagnement sur-mesure - ProxiZen BTP",
     description:
-      "Organisation administrative, devis & facturation, interface avec votre cabinet. Accompagnement personnalise pour artisans et TPE du BTP.",
+      "Organisation administrative, devis & facturation, interface avec votre cabinet. Accompagnement personnalise pour artisans et TPE du BTP avec ProxiZen BTP.",
     keywords:
-      "accompagnement BTP, organisation administrative, devis facturation, pre-comptabilite",
+      "ProxiZen BTP, accompagnement BTP, organisation administrative, devis facturation, pre-comptabilite",
     ogImage: "/og-accompagnement.png",
   },
   offres: {
     slug: "offres",
     path: "/offres",
-    title: "Nos offres - ProxizenBTP",
+    title: "Nos offres - ProxiZen BTP",
     description:
-      "Decouvrez les formules d'accompagnement administratif ProxizenBTP pour artisans, TPE et PME du batiment.",
+      "Decouvrez les formules d'accompagnement administratif ProxiZen BTP pour artisans, TPE et PME du batiment.",
     keywords:
-      "offres administratif BTP, formules accompagnement, gestion entreprise batiment",
+      "ProxiZen BTP, offres administratif BTP, formules accompagnement, gestion entreprise batiment",
     ogImage: "/og-accompagnement.png",
   },
   apropos: {
     slug: "apropos",
     path: "/a-propos",
-    title: "A propos - ProxizenBTP",
+    title: "A propos - ProxiZen BTP",
     description:
-      "Decouvrez ProxizenBTP, votre partenaire pour simplifier l'administratif et la gestion de votre entreprise du BTP.",
-    keywords: "ProxizenBTP, equipe, valeurs, expertise BTP",
+      "Decouvrez ProxiZen BTP, votre partenaire pour simplifier l'administratif et la gestion de votre entreprise du BTP.",
+    keywords: "ProxiZen BTP, proxizen btp, equipe, valeurs, expertise BTP",
     ogImage: "/og-apropos.png",
   },
   contact: {
     slug: "contact",
     path: "/contact",
-    title: "Contactez-nous - ProxizenBTP",
+    title: "Contactez-nous - ProxiZen BTP",
     description:
       "Prenons rendez-vous pour echanger sur vos besoins administratifs. Premier echange telephonique gratuit et sans engagement.",
-    keywords: "contact ProxizenBTP, rendez-vous, devis gratuit",
+    keywords: "contact ProxiZen BTP, proxizen btp, rendez-vous, devis gratuit",
     ogImage: "/og-contact.png",
   },
   faq: {
     slug: "faq",
     path: "/faq",
-    title: "FAQ - ProxizenBTP",
+    title: "FAQ - ProxiZen BTP",
     description:
-      "Consultez les questions frequentes sur l'accompagnement administratif ProxizenBTP pour les entreprises du BTP.",
-    keywords: "faq ProxizenBTP, questions administratives BTP, accompagnement",
+      "Consultez les questions frequentes sur l'accompagnement administratif ProxiZen BTP pour les entreprises du BTP.",
+    keywords: "faq ProxiZen BTP, proxizen btp, questions administratives BTP, accompagnement",
     ogImage: "/og-default.png",
   },
 } satisfies Record<string, SEOPageConfig>;

@@ -1,7 +1,7 @@
 {
-  "name": "ProxizenBTP",
-  "short_name": "ProxizenBTP",
-  "description": "Accompagnement administratif BTP",
+  "name": "ProxiZen BTP",
+  "short_name": "ProxiZen",
+  "description": "Assistance administrative BTP",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f5f2e9",
