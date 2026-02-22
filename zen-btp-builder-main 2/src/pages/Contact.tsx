@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone, Clock } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
@@ -259,21 +259,20 @@ const Contact = () => {
                     <div>
                       <p className="font-medium text-sm">Téléphone</p>
                       <a
+                        href="tel:0699327230"
+                        className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        0699327230
+                      </a>
+                      <a
                         href={settings.calendlyUrl}
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => trackCalendlyClick("contact-info")}
-                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                        className="block text-sm text-muted-foreground hover:text-primary transition-colors mt-1"
                       >
                         demander un échange
                       </a>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Clock className="text-primary mt-1 shrink-0" size={18} />
-                    <div>
-                      <p className="font-medium text-sm">Disponibilité</p>
-                      <p className="text-sm text-muted-foreground">Lundi – Vendredi, 9h – 18h</p>
                     </div>
                   </div>
                 </div>

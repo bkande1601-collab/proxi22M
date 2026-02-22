@@ -154,7 +154,7 @@ const Index = () => {
               Pour artisans, TPE/PME et cabinets comptables
             </motion.span>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-extrabold text-primary-foreground leading-[1.1] mb-4">
-              Assistante administrative spécialisée BTP
+              Assistance administrative spécialisée BTP
             </h1>
             <p className="text-xl md:text-2xl text-secondary font-heading font-bold mb-4">
               Moins de stress. Plus de clarté.

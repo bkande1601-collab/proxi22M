@@ -31,8 +31,7 @@ const offers = [
       "Relances clients simples",
       "Pré-comptabilité",
     ],
-    benefit:
-      "Sérénité : un dossier carré chaque mois sans y passer vos soirées",
+    benefit: "Un dossier carré chaque mois sans y passer vos soirées",
     highlight: false,
     cta: "Voir l’offre Essentielle",
   },
@@ -47,10 +46,9 @@ const offers = [
       "Rappels d’échéances administratives",
       "Tableaux de suivi administratif",
     ],
-    benefit:
-      "Apaisement : pour un fonctionnement fluide avec votre cabinet comptable",
+    benefit: "Un fonctionnement fluide avec votre cabinet comptable",
     highlight: true,
-    cta: "Parler de mon organisation administrative",
+    cta: "Voir l’offre confort",
   },
   {
     title: "PREMIUM",
@@ -64,9 +62,9 @@ const offers = [
       "Forte réactivité",
     ],
     benefit:
-      "Croissance : déléguez tout le “poids” administratif pour vous concentrer sur vos chantiers",
+      "Optimisez votre croissance et délégué tout le “poids” administratif pour vous concentrer sur vos chantiers",
     highlight: false,
-    cta: "Appeler pour un accompagnement sur mesure",
+    cta: "Voir l’offre Premium",
   },
 ];
 
@@ -85,7 +83,7 @@ const Offres = () => {
             transition={{ duration: 0.7 }}
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary-foreground/10 text-sm font-medium mb-6 border border-primary-foreground/20">
-              NOS OFFRES (tarifs indicatifs)
+              NOS OFFRES
             </span>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-4 leading-tight">
               Des offres adaptées à votre organisation administrative
@@ -170,7 +168,7 @@ const Offres = () => {
                       : "text-muted-foreground"
                   }`}
                 >
-                  Bénéfice : {offer.benefit}
+                  Avantages: {offer.benefit}
                 </p>
 
                 <div className="mt-auto pt-5">
@@ -203,8 +201,8 @@ const Offres = () => {
               (plusieurs mois).
             </p>
             <p className="text-sm font-medium mt-3">
-              Bénéfice : Liberté : Une intervention ponctuelle pour repartir sur
-              des bases saines
+              Avantages : Une intervention ponctuelle pour repartir sur des bases
+              saines
             </p>
           </motion.div>
 
