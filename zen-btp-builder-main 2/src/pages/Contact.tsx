@@ -11,7 +11,8 @@ import { useSiteSettings } from "@/components/SiteSettingsProvider";
 import { addContactRequest, trackCalendlyClick } from "@/lib/site-insights";
 
 interface ContactPayload {
-  name: string;
+  firstName: string;
+  lastName: string;
   company: string;
   email: string;
   phone: string;
@@ -32,10 +33,11 @@ const sendContactEmail = async (
           Accept: "application/json",
         },
         body: JSON.stringify({
-          _subject: `Nouvelle demande client - ${payload.name || "Sans nom"}`,
+          _subject: `Nouvelle demande client - ${payload.firstName} ${payload.lastName}`.trim(),
           _template: "table",
           _captcha: "false",
-          nom: payload.name,
+          prenom: payload.firstName,
+          nom: payload.lastName,
           entreprise: payload.company,
           email: payload.email,
           telephone: payload.phone,
@@ -67,14 +69,23 @@ const Contact = () => {
     const formData = new FormData(form);
 
     const payload: ContactPayload = {
-      name: String(formData.get("name") ?? ""),
+      firstName: String(formData.get("firstName") ?? ""),
+      lastName: String(formData.get("lastName") ?? ""),
       company: String(formData.get("company") ?? ""),
       email: String(formData.get("email") ?? ""),
       phone: String(formData.get("phone") ?? ""),
       message: String(formData.get("message") ?? ""),
     };
 
-    const hasSavedInDashboard = addContactRequest(payload);
+    const fullName = `${payload.firstName} ${payload.lastName}`.trim();
+
+    const hasSavedInDashboard = addContactRequest({
+      name: fullName,
+      company: payload.company,
+      email: payload.email,
+      phone: payload.phone,
+      message: payload.message,
+    });
     const hasMailSent = await sendContactEmail(payload, settings.contactEmail);
 
     setLoading(false);
@@ -152,22 +163,53 @@ const Contact = () => {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="name">Nom *</Label>
-                      <Input id="name" name="name" required maxLength={100} placeholder="Votre nom" />
+                      <Label htmlFor="firstName">Prénom *</Label>
+                      <Input
+                        id="firstName"
+                        name="firstName"
+                        required
+                        maxLength={100}
+                        placeholder="Votre prénom"
+                      />
                     </div>
                     <div>
-                      <Label htmlFor="company">Entreprise</Label>
-                      <Input id="company" name="company" maxLength={100} placeholder="Nom de l'entreprise" />
+                      <Label htmlFor="lastName">Nom *</Label>
+                      <Input
+                        id="lastName"
+                        name="lastName"
+                        required
+                        maxLength={100}
+                        placeholder="Votre nom"
+                      />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
+                      <Label htmlFor="company">Entreprise *</Label>
+                      <Input
+                        id="company"
+                        name="company"
+                        required
+                        maxLength={100}
+                        placeholder="Nom de l'entreprise"
+                      />
+                    </div>
+                    <div>
                       <Label htmlFor="email">Email *</Label>
                       <Input id="email" name="email" type="email" required maxLength={255} placeholder="votre@email.com" />
                     </div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="phone">Téléphone</Label>
-                      <Input id="phone" name="phone" type="tel" maxLength={20} placeholder="06 00 00 00 00" />
+                      <Label htmlFor="phone">Téléphone *</Label>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        required
+                        maxLength={20}
+                        placeholder="06 00 00 00 00"
+                      />
                     </div>
                   </div>
                   <div>
