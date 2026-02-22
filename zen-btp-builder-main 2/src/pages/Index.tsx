@@ -50,7 +50,6 @@ const scaleIn = {
 };
 
 const problemPoints = [
-  "Vous êtes artisan ou dirigeant dans le BTP.",
   "Votre priorité, ce sont les chantiers, les clients et les délais.",
   "Pourtant, l’administratif s’accumule : devis en retard, factures à suivre, documents à classer, échanges à gérer.",
   "Résultat : charge mentale, perte de temps et stress inutile.",

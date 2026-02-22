@@ -68,7 +68,7 @@ const offers = [
       "Relances clients simples",
       "Pré-comptabilité",
     ],
-    benefit: "Un dossier carré chaque mois sans y passer vos soirées",
+    benefit: "Avantage: Un dossier carré chaque mois sans y passer vos soirées",
     cta: "Voir l’offre Essentielle",
   },
   {
@@ -82,8 +82,8 @@ const offers = [
       "Rappels d’échéances administratives",
       "Tableaux de suivi administratif",
     ],
-    benefit: "Un fonctionnement fluide avec votre cabinet comptable",
-    cta: "Voir l’offre confort",
+    benefit: "Avantage: Un fonctionnement fluide avec votre cabinet comptable",
+    cta: "Voir l’offre Confort",
   },
   {
     title: "PREMIUM",
@@ -97,7 +97,7 @@ const offers = [
       "Forte réactivité",
     ],
     benefit:
-      "Optimisez votre croissance et délégué tout le “poids” administratif pour vous concentrer sur vos chantiers",
+      "Avantages : Optimisez votre croissance et déléguez tout le « poids » administratif pour vous concentrer sur vos chantiers.",
     cta: "Voir l’offre Premium",
   },
 ];
@@ -362,7 +362,7 @@ const Accompagnement = () => {
                       : "text-muted-foreground"
                   }`}
                 >
-                  Avantages: {offer.benefit}
+                  {offer.benefit}
                 </p>
                 <div className="mt-auto pt-5">
                   <Button
@@ -400,7 +400,7 @@ const Accompagnement = () => {
           </motion.div>
 
           <motion.div
-            className="mt-8 p-7 rounded-2xl bg-background border border-border/60 max-w-4xl"
+            className="mt-8 p-5 md:p-6 rounded-2xl bg-background border border-border/60 max-w-3xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}

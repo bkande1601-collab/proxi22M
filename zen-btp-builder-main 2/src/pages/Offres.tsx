@@ -31,7 +31,7 @@ const offers = [
       "Relances clients simples",
       "Pré-comptabilité",
     ],
-    benefit: "Un dossier carré chaque mois sans y passer vos soirées",
+    benefit: "Avantage: Un dossier carré chaque mois sans y passer vos soirées",
     highlight: false,
     cta: "Voir l’offre Essentielle",
   },
@@ -46,9 +46,9 @@ const offers = [
       "Rappels d’échéances administratives",
       "Tableaux de suivi administratif",
     ],
-    benefit: "Un fonctionnement fluide avec votre cabinet comptable",
+    benefit: "Avantage: Un fonctionnement fluide avec votre cabinet comptable",
     highlight: true,
-    cta: "Voir l’offre confort",
+    cta: "Voir l’offre Confort",
   },
   {
     title: "PREMIUM",
@@ -62,7 +62,7 @@ const offers = [
       "Forte réactivité",
     ],
     benefit:
-      "Optimisez votre croissance et délégué tout le “poids” administratif pour vous concentrer sur vos chantiers",
+      "Avantages : Optimisez votre croissance et déléguez tout le « poids » administratif pour vous concentrer sur vos chantiers.",
     highlight: false,
     cta: "Voir l’offre Premium",
   },
@@ -168,7 +168,7 @@ const Offres = () => {
                       : "text-muted-foreground"
                   }`}
                 >
-                  Avantages: {offer.benefit}
+                  {offer.benefit}
                 </p>
 
                 <div className="mt-auto pt-5">
@@ -207,18 +207,22 @@ const Offres = () => {
           </motion.div>
 
           <motion.div
-            className="mt-8 space-y-2 text-sm text-muted-foreground max-w-4xl mx-auto"
+            className="mt-8 p-5 md:p-6 rounded-2xl bg-background border border-border/60 max-w-3xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
           >
-            <p className="font-medium text-foreground">Note tarifaire :</p>
-            <p>
+            <p className="font-heading font-bold text-foreground mb-3">
+              Note tarifaire :
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Les tarifs sont ajustables selon le volume de factures, la taille
               de l’entreprise et la complexité administrative.
             </p>
-            <p>Un devis personnalisé est établi après un premier échange.</p>
+            <p className="text-sm text-muted-foreground leading-relaxed mt-3">
+              Un devis personnalisé est établi après un premier échange.
+            </p>
           </motion.div>
         </div>
       </section>
