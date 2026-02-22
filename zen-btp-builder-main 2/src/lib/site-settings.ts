@@ -1,6 +1,7 @@
 export interface SiteSettings {
   contactEmail: string;
   calendlyUrl: string;
+  linkedinUrl: string;
   logoUrl: string;
   heroImageUrl: string;
   heroBadgeText: string;
@@ -16,6 +17,7 @@ export interface SiteSettings {
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   contactEmail: "proxizenbtp@gmail.com",
   calendlyUrl: "https://calendly.com/proxizenbtp/30min",
+  linkedinUrl: "",
   logoUrl: "/proxizen-logo.svg",
   heroImageUrl: "",
   heroBadgeText: "Specialiste BTP • Accompagnement sur-mesure",
@@ -37,6 +39,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const normalizeEmail = (value: string) => value.trim().toLowerCase();
 
 const normalizeCalendlyUrl = (value: string) => value.trim();
+const normalizeLinkedinUrl = (value: string) => value.trim();
 
 const sanitizeText = (value: string | undefined, fallback: string, maxLength = 400) => {
   const normalizedValue = (value ?? "").trim();
@@ -50,6 +53,21 @@ const isValidCalendlyUrl = (value: string) => {
   try {
     const url = new URL(value);
     return url.protocol === "https:" && url.hostname.includes("calendly.com");
+  } catch {
+    return false;
+  }
+};
+
+const isValidLinkedinUrl = (value: string) => {
+  if (!value) {
+    return true;
+  }
+  try {
+    const url = new URL(value);
+    return (
+      (url.protocol === "http:" || url.protocol === "https:") &&
+      (url.hostname.includes("linkedin.com") || url.hostname.includes("lnkd.in"))
+    );
   } catch {
     return false;
   }
@@ -88,6 +106,7 @@ const sanitizeImageSource = (value: string | undefined, fallback: string) => {
 export const sanitizeSiteSettings = (value: Partial<SiteSettings>): SiteSettings => {
   const candidateEmail = normalizeEmail(value.contactEmail ?? DEFAULT_SITE_SETTINGS.contactEmail);
   const candidateCalendly = normalizeCalendlyUrl(value.calendlyUrl ?? DEFAULT_SITE_SETTINGS.calendlyUrl);
+  const candidateLinkedin = normalizeLinkedinUrl(value.linkedinUrl ?? DEFAULT_SITE_SETTINGS.linkedinUrl);
 
   return {
     contactEmail: EMAIL_PATTERN.test(candidateEmail)
@@ -96,6 +115,9 @@ export const sanitizeSiteSettings = (value: Partial<SiteSettings>): SiteSettings
     calendlyUrl: isValidCalendlyUrl(candidateCalendly)
       ? candidateCalendly
       : DEFAULT_SITE_SETTINGS.calendlyUrl,
+    linkedinUrl: isValidLinkedinUrl(candidateLinkedin)
+      ? candidateLinkedin
+      : DEFAULT_SITE_SETTINGS.linkedinUrl,
     logoUrl: sanitizeImageSource(value.logoUrl, DEFAULT_SITE_SETTINGS.logoUrl),
     heroImageUrl: sanitizeImageSource(value.heroImageUrl, DEFAULT_SITE_SETTINGS.heroImageUrl),
     heroBadgeText: sanitizeText(value.heroBadgeText, DEFAULT_SITE_SETTINGS.heroBadgeText, 120),

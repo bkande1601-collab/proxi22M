@@ -47,10 +47,22 @@ const toAbsoluteImage = (imagePath: string) => {
   if (!trimmed) {
     return "";
   }
+  if (trimmed.startsWith("data:image/")) {
+    return trimmed;
+  }
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
     return trimmed;
   }
-  return `${siteConfig.url}${trimmed.startsWith("/") ? trimmed : `/${trimmed}`}`;
+  const previewBaseUrl =
+    typeof window !== "undefined" ? window.location.origin : siteConfig.url;
+  try {
+    return new URL(
+      trimmed.startsWith("/") ? trimmed : `/${trimmed}`,
+      previewBaseUrl,
+    ).toString();
+  } catch {
+    return "";
+  }
 };
 
 const AccesPriveSeoEditor = () => {
@@ -111,7 +123,9 @@ const AccesPriveSeoEditor = () => {
   const previewTitle = formData.ogTitle || formData.metaTitle || "Titre non defini";
   const previewDescription =
     formData.ogDescription || formData.metaDescription || "Description non definie";
-  const previewImage = toAbsoluteImage(formData.ogImage || formData.twitterImage);
+  const previewImage = toAbsoluteImage(
+    formData.ogImage || pageData?.ogImage || siteConfig.openGraph.images.default,
+  );
 
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -149,7 +163,16 @@ const AccesPriveSeoEditor = () => {
     }
 
     setIsSaving(true);
-    const updatedPage = updateSeoPage(pageData.slug, formData, getPrivateAccessUserEmail());
+    const updatedPage = updateSeoPage(
+      pageData.slug,
+      {
+        ...formData,
+        twitterTitle: formData.ogTitle || formData.metaTitle,
+        twitterDescription: formData.ogDescription || formData.metaDescription,
+        twitterImage: formData.ogImage,
+      },
+      getPrivateAccessUserEmail(),
+    );
     setIsSaving(false);
 
     if (!updatedPage) {
@@ -251,7 +274,7 @@ const AccesPriveSeoEditor = () => {
               <Tabs defaultValue="seo" className="space-y-4">
                 <TabsList>
                   <TabsTrigger value="seo">SEO de base</TabsTrigger>
-                  <TabsTrigger value="social">Reseaux sociaux</TabsTrigger>
+                  <TabsTrigger value="social">Open Graph</TabsTrigger>
                   <TabsTrigger value="advanced">Parametres avances</TabsTrigger>
                   <TabsTrigger value="preview">Apercu</TabsTrigger>
                 </TabsList>
@@ -351,7 +374,7 @@ const AccesPriveSeoEditor = () => {
                 <TabsContent value="social" className="space-y-4">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Open Graph & Twitter</CardTitle>
+                      <CardTitle>Open Graph</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div>
@@ -403,47 +426,6 @@ const AccesPriveSeoEditor = () => {
                             setFormData((current) => ({
                               ...current,
                               ogImageAlt: event.target.value,
-                            }))
-                          }
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="twitterTitle">Titre Twitter</Label>
-                        <Input
-                          id="twitterTitle"
-                          value={formData.twitterTitle}
-                          onChange={(event) =>
-                            setFormData((current) => ({
-                              ...current,
-                              twitterTitle: event.target.value,
-                            }))
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="twitterDescription">Description Twitter</Label>
-                        <Textarea
-                          id="twitterDescription"
-                          rows={3}
-                          value={formData.twitterDescription}
-                          onChange={(event) =>
-                            setFormData((current) => ({
-                              ...current,
-                              twitterDescription: event.target.value,
-                            }))
-                          }
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="twitterImage">Image Twitter (URL)</Label>
-                        <Input
-                          id="twitterImage"
-                          value={formData.twitterImage}
-                          onChange={(event) =>
-                            setFormData((current) => ({
-                              ...current,
-                              twitterImage: event.target.value,
                             }))
                           }
                         />

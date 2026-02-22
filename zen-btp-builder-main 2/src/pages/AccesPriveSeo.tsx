@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   getSeoPages,
-  resetSeoPagesToDefault,
   SEO_UPDATED_EVENT_NAME,
   SEOPageData,
 } from "@/lib/seo-storage";
@@ -77,21 +76,6 @@ const AccesPriveSeo = () => {
     setLoginPassword("");
   };
 
-  const handleReset = () => {
-    const confirmed = window.confirm(
-      "Restaurer toutes les metas SEO par defaut ?",
-    );
-    if (!confirmed) {
-      return;
-    }
-    resetSeoPagesToDefault();
-    refreshPages();
-    toast({
-      title: "SEO restaure",
-      description: "Les valeurs par defaut ont ete reappliquees.",
-    });
-  };
-
   return (
     <Layout>
       <SEO
@@ -105,7 +89,7 @@ const AccesPriveSeo = () => {
             Gestion SEO
           </h1>
           <p className="text-muted-foreground mb-10">
-            Gerez les metadonnees Google, Open Graph et Twitter de chaque page.
+            Gerez les metadonnees Google et Open Graph de chaque page.
           </p>
 
           {!isAuthenticated ? (
@@ -146,12 +130,6 @@ const AccesPriveSeo = () => {
           ) : (
             <div className="space-y-6">
               <div className="flex flex-wrap gap-3">
-                <Button type="button" variant="outline" onClick={refreshPages}>
-                  Actualiser
-                </Button>
-                <Button type="button" variant="outline" onClick={handleReset}>
-                  Restaurer les valeurs par defaut
-                </Button>
                 <Button type="button" variant="ghost" onClick={handleLogout}>
                   Se deconnecter
                 </Button>

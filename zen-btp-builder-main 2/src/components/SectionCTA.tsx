@@ -26,6 +26,9 @@ const SectionCTA = ({
   const resolvedTitle = title ?? settings.finalCtaTitle;
   const resolvedButtonText = buttonText ?? settings.finalCtaButtonText;
   const shouldTrackCalendly = Boolean(href && href.includes("calendly.com"));
+  const shouldOpenInNewTab = Boolean(
+    href && (href.startsWith("http://") || href.startsWith("https://")),
+  );
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground section-padding">
@@ -71,8 +74,8 @@ const SectionCTA = ({
               {href ? (
                 <a
                   href={href}
-                  target="_blank"
-                  rel="noreferrer"
+                  target={shouldOpenInNewTab ? "_blank" : undefined}
+                  rel={shouldOpenInNewTab ? "noreferrer" : undefined}
                   onClick={() => {
                     if (shouldTrackCalendly) {
                       trackCalendlyClick("section-cta");

@@ -223,7 +223,8 @@ const APropos = () => {
       <SectionCTA
         title="Envie d’en parler ?"
         description="Chaque entreprise est différente. C’est pourquoi je privilégie le contact direct pour comprendre vos besoins réels et vous proposer une solution adaptée."
-        hideButton
+        buttonText="06 99 32 72 30"
+        href="tel:0699327230"
       />
     </Layout>
   );

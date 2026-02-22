@@ -34,9 +34,12 @@ const formatDate = (isoDate: string) => {
 
 const escapeCsvCell = (value: string) => `"${value.replace(/"/g, "\"\"")}"`;
 
+const looksLikeLinkedinUrl = (value: string) =>
+  /^https?:\/\/(www\.)?(linkedin\.com|lnkd\.in)\//i.test(value);
+
 const AccesPrive = () => {
   const { toast } = useToast();
-  const { settings } = useSiteSettings();
+  const { settings, updateSettings } = useSiteSettings();
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -45,6 +48,7 @@ const AccesPrive = () => {
   const [requests, setRequests] = useState<ContactRequest[]>(() =>
     getContactRequests(),
   );
+  const [linkedinDraft, setLinkedinDraft] = useState(settings.linkedinUrl);
 
   const expectedPassword =
     import.meta.env.VITE_PRIVATE_ACCESS_PASSWORD?.trim() || DEFAULT_PRIVATE_PASSWORD;
@@ -68,6 +72,10 @@ const AccesPrive = () => {
       setIsAuthenticated(true);
     }
   }, []);
+
+  useEffect(() => {
+    setLinkedinDraft(settings.linkedinUrl);
+  }, [settings.linkedinUrl]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -198,6 +206,26 @@ const AccesPrive = () => {
     URL.revokeObjectURL(url);
   };
 
+  const handleSaveLinkedin = () => {
+    const trimmedValue = linkedinDraft.trim();
+    if (trimmedValue && !looksLikeLinkedinUrl(trimmedValue)) {
+      toast({
+        title: "Lien LinkedIn invalide",
+        description:
+          "Utilisez un lien LinkedIn complet (linkedin.com ou lnkd.in).",
+        variant: "destructive",
+      });
+      return;
+    }
+    updateSettings({ linkedinUrl: trimmedValue });
+    toast({
+      title: "Lien LinkedIn enregistre",
+      description: trimmedValue
+        ? "Le lien LinkedIn est pret pour l'ajout futur."
+        : "Le lien LinkedIn a ete vide.",
+    });
+  };
+
   return (
     <Layout>
       <SEO
@@ -303,6 +331,29 @@ const AccesPrive = () => {
                       Ouvrir la page publique de prise de rendez-vous
                     </a>
                   </Button>
+                </div>
+                <div className="rounded-lg border border-border/60 bg-background p-4 space-y-3">
+                  <p className="text-sm font-medium">
+                    Lien LinkedIn (ajout futur)
+                  </p>
+                  <Input
+                    type="url"
+                    value={linkedinDraft}
+                    onChange={(event) => setLinkedinDraft(event.target.value)}
+                    placeholder="https://www.linkedin.com/in/..."
+                  />
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button type="button" variant="outline" onClick={handleSaveLinkedin}>
+                      Enregistrer le lien LinkedIn
+                    </Button>
+                    {settings.linkedinUrl ? (
+                      <Button asChild type="button" variant="ghost">
+                        <a href={settings.linkedinUrl} target="_blank" rel="noreferrer">
+                          Ouvrir LinkedIn actuel
+                        </a>
+                      </Button>
+                    ) : null}
+                  </div>
                 </div>
               </div>
 

@@ -185,7 +185,7 @@ const Index = () => {
                 className="text-base px-8 text-primary-foreground hover:bg-primary-foreground/10 border border-primary-foreground/20"
               >
                 <Link to="/accompagnement">
-                  Contactez-moi pour en discuter simplement.
+                  Contactez-nous pour en discuter simplement.
                 </Link>
               </Button>
             </div>
@@ -502,7 +502,7 @@ const Index = () => {
         title="Parlons de votre situation"
         description={`Chaque entreprise est différente.
 Un échange permet de comprendre vos besoins et de vous proposer une solution adaptée.`}
-        buttonText="Contactez-moi pour en discuter simplement."
+        buttonText="Contactez-nous pour en discuter simplement."
         href={settings.calendlyUrl}
       />
     </Layout>
