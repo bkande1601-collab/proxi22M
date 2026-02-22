@@ -33,12 +33,19 @@ const Header = () => {
       }`}
     >
       <div className="container flex items-center justify-between h-16 md:h-20">
-        <Link to="/" className="flex items-center gap-2">
-          <span className={`text-xl md:text-2xl font-heading font-extrabold transition-colors duration-300 ${
-            scrolled ? "text-primary" : "text-primary-foreground"
-          }`}>
-            ProxiZen <span className={scrolled ? "text-accent" : "text-secondary"}>BTP</span>
-          </span>
+        <Link
+          to="/"
+          aria-label="Accueil ProxiZen BTP"
+          className={`flex items-center rounded-xl transition-all duration-300 ${
+            scrolled ? "" : "bg-background/90 backdrop-blur-sm shadow-sm px-2 py-1"
+          }`}
+        >
+          <img
+            src="/proxizen-logo.svg"
+            alt="Logo ProxiZen BTP"
+            className="h-9 md:h-11 w-auto"
+            loading="eager"
+          />
         </Link>
 
         {/* Desktop nav */}
