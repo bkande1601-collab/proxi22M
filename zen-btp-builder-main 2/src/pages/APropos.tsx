@@ -78,7 +78,7 @@ const APropos = () => {
           >
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                ProxyZen BTP est né d’un constat simple : dans le BTP, le temps
+                ProxiZen BTP est né d’un constat simple : dans le BTP, le temps
                 est précieux et l’administratif devient vite une charge lourde,
                 stressante et chronophage pour les artisans et dirigeants de
                 petites structures.
@@ -120,7 +120,7 @@ const APropos = () => {
                   concrètes des artisans.
                 </p>
                 <p>
-                  ProxyZen BTP n’est pas une assistance administrative
+                  ProxiZen BTP n’est pas une assistance administrative
                   généraliste. C’est un accompagnement pensé pour le BTP, avec
                   ses contraintes, son rythme et ses priorités.
                 </p>
@@ -179,7 +179,7 @@ const APropos = () => {
               Une approche zen… mais efficace
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Le nom ProxyZen n’est pas un hasard. Je crois fermement qu’une
+              Le nom ProxiZen n’est pas un hasard. Je crois fermement qu’une
               entreprise fonctionne mieux quand l’esprit est clair.
             </p>
             <p className="text-muted-foreground leading-relaxed mt-3">

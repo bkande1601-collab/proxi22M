@@ -254,7 +254,7 @@ const Index = () => {
             variants={fadeUp}
           >
             <h2 className="text-3xl md:text-5xl font-heading font-bold text-balance">
-              La solution ProxyZen BTP
+              La solution ProxiZen BTP
             </h2>
           </motion.div>
 
@@ -274,7 +274,7 @@ const Index = () => {
                 Accompagnement clair
               </span>
               <p className="text-base md:text-lg leading-relaxed text-foreground">
-                ProxyZen BTP vous accompagne dans la gestion de votre
+                ProxiZen BTP vous accompagne dans la gestion de votre
                 administratif de façon claire, structurée et régulière.
               </p>
             </motion.div>
@@ -430,7 +430,7 @@ const Index = () => {
             variants={fadeUp}
           >
             <h2 className="text-3xl md:text-5xl font-heading font-bold">
-              À qui s’adresse ProxyZen BTP ?
+              À qui s’adresse ProxiZen BTP ?
             </h2>
           </motion.div>
 
@@ -469,7 +469,7 @@ const Index = () => {
             variants={fadeUp}
           >
             <h2 className="text-3xl md:text-5xl font-heading font-bold">
-              Pourquoi choisir ProxyZen BTP ?
+              Pourquoi choisir ProxiZen BTP ?
             </h2>
           </motion.div>
 
