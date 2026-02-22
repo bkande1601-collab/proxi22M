@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
+import { trackCalendlyClick } from "@/lib/site-insights";
 
 interface SectionCTAProps {
   title?: string;
@@ -20,6 +21,7 @@ const SectionCTA = ({
   const { settings } = useSiteSettings();
   const resolvedTitle = title ?? settings.finalCtaTitle;
   const resolvedButtonText = buttonText ?? settings.finalCtaButtonText;
+  const shouldTrackCalendly = Boolean(href && href.includes("calendly.com"));
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent text-primary-foreground section-padding">
@@ -51,7 +53,16 @@ const SectionCTA = ({
             className="text-base px-10 bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg shadow-primary/20 group"
           >
             {href ? (
-              <a href={href} target="_blank" rel="noreferrer">
+              <a
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => {
+                  if (shouldTrackCalendly) {
+                    trackCalendlyClick("section-cta");
+                  }
+                }}
+              >
                 {resolvedButtonText}
                 <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={18} />
               </a>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
+import { trackCalendlyClick } from "@/lib/site-insights";
 
 const Footer = () => {
   const { settings } = useSiteSettings();
@@ -53,6 +54,7 @@ const Footer = () => {
               href={settings.calendlyUrl}
               target="_blank"
               rel="noreferrer"
+              onClick={() => trackCalendlyClick("footer")}
               className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:text-accent/80 transition-colors"
             >
               Planifier un échange gratuit →

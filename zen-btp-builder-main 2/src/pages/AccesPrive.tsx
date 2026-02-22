@@ -1,37 +1,50 @@
-import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { sanitizeSiteSettings, SiteSettings } from "@/lib/site-settings";
+import {
+  clearContactRequests,
+  ContactRequest,
+  getContactRequests,
+  getSiteMetrics,
+  SiteMetrics,
+} from "@/lib/site-insights";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
 
 const SESSION_STORAGE_KEY = "proxizen-private-access-session";
 const OWNER_EMAIL = "proxizenbtp@gmail.com";
 const DEFAULT_PRIVATE_PASSWORD = "ProxizenBtp2026!";
+const CALENDLY_DASHBOARD_URL = "https://calendly.com/app/scheduled_events";
 
-const readImageAsDataUrl = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(new Error("Impossible de lire le fichier image."));
-    reader.readAsDataURL(file);
-  });
+const formatDate = (isoDate: string) => {
+  try {
+    return new Date(isoDate).toLocaleString("fr-FR", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  } catch {
+    return isoDate;
+  }
+};
+
+const escapeCsvCell = (value: string) => `"${value.replace(/"/g, "\"\"")}"`;
 
 const AccesPrive = () => {
   const { toast } = useToast();
-  const { settings, updateSettings, resetSettings } = useSiteSettings();
+  const { settings } = useSiteSettings();
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [formValues, setFormValues] = useState<SiteSettings>(settings);
+  const [metrics, setMetrics] = useState<SiteMetrics>(() => getSiteMetrics());
+  const [requests, setRequests] = useState<ContactRequest[]>(() =>
+    getContactRequests(),
+  );
 
   const expectedPassword =
     import.meta.env.VITE_PRIVATE_ACCESS_PASSWORD?.trim() || DEFAULT_PRIVATE_PASSWORD;
-
   const allowedEmails = useMemo(() => {
     const emails = [OWNER_EMAIL];
     const clientEmail = import.meta.env.VITE_CLIENT_ACCESS_EMAIL?.trim().toLowerCase();
@@ -41,9 +54,10 @@ const AccesPrive = () => {
     return emails;
   }, []);
 
-  useEffect(() => {
-    setFormValues(settings);
-  }, [settings]);
+  const refreshDashboard = () => {
+    setMetrics(getSiteMetrics());
+    setRequests(getContactRequests());
+  };
 
   useEffect(() => {
     const hasAccess = window.sessionStorage.getItem(SESSION_STORAGE_KEY) === "ok";
@@ -51,6 +65,32 @@ const AccesPrive = () => {
       setIsAuthenticated(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    refreshDashboard();
+    const timer = window.setInterval(refreshDashboard, 15000);
+    return () => window.clearInterval(timer);
+  }, [isAuthenticated]);
+
+  const topPages = useMemo(
+    () =>
+      Object.entries(metrics.pageViewsByPath)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 6),
+    [metrics.pageViewsByPath],
+  );
+
+  const calendlySources = useMemo(
+    () =>
+      Object.entries(metrics.calendlyClicksBySource)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 6),
+    [metrics.calendlyClicksBySource],
+  );
 
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -73,7 +113,7 @@ const AccesPrive = () => {
     setLoginPassword("");
     toast({
       title: "Connexion reussie",
-      description: "Bienvenue dans le back-office.",
+      description: "Bienvenue dans votre tableau de bord.",
     });
   };
 
@@ -84,88 +124,80 @@ const AccesPrive = () => {
     setLoginPassword("");
   };
 
-  const handleFieldChange =
-    (field: keyof SiteSettings) =>
-    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFormValues((currentValues) => ({
-        ...currentValues,
-        [field]: event.target.value,
-      }));
-    };
+  const handleClearRequests = () => {
+    const confirmed = window.confirm(
+      "Voulez-vous vraiment supprimer toutes les demandes clients enregistrees ?",
+    );
+    if (!confirmed) {
+      return;
+    }
 
-  const handleImageUpload =
-    (field: "logoUrl" | "heroImageUrl") =>
-    async (event: ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      event.target.value = "";
-
-      if (!file) {
-        return;
-      }
-
-      if (file.size > 2_500_000) {
-        toast({
-          title: "Image trop lourde",
-          description: "Choisissez une image inferieure a 2.5 Mo.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      try {
-        const dataUrl = await readImageAsDataUrl(file);
-        setFormValues((currentValues) => ({
-          ...currentValues,
-          [field]: dataUrl,
-        }));
-        toast({
-          title: "Image chargee",
-          description: "Cliquez sur Enregistrer les changements pour appliquer.",
-        });
-      } catch {
-        toast({
-          title: "Erreur image",
-          description: "Le fichier n'a pas pu etre charge.",
-          variant: "destructive",
-        });
-      }
-    };
-
-  const handleSaveSettings = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const sanitized = sanitizeSiteSettings(formValues);
-    updateSettings(sanitized);
-    setFormValues(sanitized);
-
+    clearContactRequests();
+    refreshDashboard();
     toast({
-      title: "Mise a jour effectuee",
-      description: "Le contenu du site a bien ete enregistre.",
+      title: "Demandes supprimees",
+      description: "La liste des demandes clients a ete videe.",
     });
   };
 
-  const handleResetDefaults = () => {
-    resetSettings();
-    toast({
-      title: "Valeurs par defaut restaurees",
-      description: "Les informations d'origine ont ete reappliquees.",
+  const handleExportRequests = () => {
+    if (requests.length === 0) {
+      toast({
+        title: "Aucune demande",
+        description: "Aucune demande client a exporter pour le moment.",
+      });
+      return;
+    }
+
+    const header = [
+      "Date",
+      "Nom",
+      "Entreprise",
+      "Email",
+      "Telephone",
+      "Message",
+    ];
+    const rows = requests.map((request) => [
+      request.createdAt,
+      request.name,
+      request.company,
+      request.email,
+      request.phone,
+      request.message,
+    ]);
+    const csvContent = [
+      header.map(escapeCsvCell).join(","),
+      ...rows.map((row) => row.map((cell) => escapeCsvCell(String(cell))).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([`\uFEFF${csvContent}`], {
+      type: "text/csv;charset=utf-8;",
     });
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = `demandes-clients-proxizen-${new Date()
+      .toISOString()
+      .slice(0, 10)}.csv`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(url);
   };
 
   return (
     <Layout>
       <section className="py-16 md:py-24">
-        <div className="container max-w-4xl">
+        <div className="container max-w-6xl">
           <h1 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-            Back-office prive
+            Tableau de bord prive
           </h1>
           <p className="text-muted-foreground mb-10">
-            Acces reserve au proprietaire et au client pour modifier les textes,
-            les images et les informations de contact du site.
+            Suivi des rendez-vous, demandes clients et statistiques du site.
           </p>
 
           {!isAuthenticated ? (
-            <div className="bg-card border rounded-xl p-6 md:p-8">
+            <div className="bg-card border rounded-xl p-6 md:p-8 max-w-xl">
               <h2 className="text-xl font-heading font-bold mb-6">Connexion</h2>
               <form onSubmit={handleLogin} className="space-y-5">
                 <div className="space-y-2">
@@ -191,236 +223,166 @@ const AccesPrive = () => {
                   />
                 </div>
                 <Button type="submit" className="w-full">
-                  Ouvrir le back-office
+                  Ouvrir le tableau de bord
                 </Button>
               </form>
-              <p className="text-xs text-muted-foreground mt-4">
-                Conseil: configurez VITE_PRIVATE_ACCESS_PASSWORD et
-                VITE_CLIENT_ACCESS_EMAIL dans Vercel.
-              </p>
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="bg-card border rounded-xl p-6 md:p-8">
-                <h2 className="text-xl font-heading font-bold mb-6">
-                  Modifier le contenu du site
-                </h2>
-                <form onSubmit={handleSaveSettings} className="space-y-6">
-                  <div className="border rounded-lg p-4 md:p-5 space-y-4">
-                    <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-muted-foreground">
-                      Contact et rendez-vous
-                    </h3>
-                    <div className="space-y-2">
-                      <Label htmlFor="site-email">Email public</Label>
-                      <Input
-                        id="site-email"
-                        type="email"
-                        required
-                        value={formValues.contactEmail}
-                        onChange={handleFieldChange("contactEmail")}
-                        placeholder="proxizenbtp@gmail.com"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="site-calendly">Lien Calendly</Label>
-                      <Input
-                        id="site-calendly"
-                        type="url"
-                        required
-                        value={formValues.calendlyUrl}
-                        onChange={handleFieldChange("calendlyUrl")}
-                        placeholder="https://calendly.com/proxizenbtp/30min"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="border rounded-lg p-4 md:p-5 space-y-4">
-                    <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-muted-foreground">
-                      Contenu accueil
-                    </h3>
-                    <div className="space-y-2">
-                      <Label htmlFor="hero-badge">Badge hero</Label>
-                      <Input
-                        id="hero-badge"
-                        value={formValues.heroBadgeText}
-                        onChange={handleFieldChange("heroBadgeText")}
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="hero-line1">Titre ligne 1</Label>
-                        <Input
-                          id="hero-line1"
-                          value={formValues.heroTitleLine1}
-                          onChange={handleFieldChange("heroTitleLine1")}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="hero-line2">Titre ligne 2</Label>
-                        <Input
-                          id="hero-line2"
-                          value={formValues.heroTitleLine2}
-                          onChange={handleFieldChange("heroTitleLine2")}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="hero-line3">Titre ligne 3</Label>
-                        <Input
-                          id="hero-line3"
-                          value={formValues.heroTitleLine3}
-                          onChange={handleFieldChange("heroTitleLine3")}
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="hero-description">Description hero</Label>
-                      <Textarea
-                        id="hero-description"
-                        rows={4}
-                        value={formValues.heroDescription}
-                        onChange={handleFieldChange("heroDescription")}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="hero-button">Texte bouton hero</Label>
-                      <Input
-                        id="hero-button"
-                        value={formValues.heroPrimaryButtonText}
-                        onChange={handleFieldChange("heroPrimaryButtonText")}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="border rounded-lg p-4 md:p-5 space-y-4">
-                    <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-muted-foreground">
-                      CTA final
-                    </h3>
-                    <div className="space-y-2">
-                      <Label htmlFor="final-cta-title">Titre CTA final</Label>
-                      <Input
-                        id="final-cta-title"
-                        value={formValues.finalCtaTitle}
-                        onChange={handleFieldChange("finalCtaTitle")}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="final-cta-button">Texte bouton CTA final</Label>
-                      <Input
-                        id="final-cta-button"
-                        value={formValues.finalCtaButtonText}
-                        onChange={handleFieldChange("finalCtaButtonText")}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="border rounded-lg p-4 md:p-5 space-y-4">
-                    <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-muted-foreground">
-                      Images
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-3">
-                        <Label htmlFor="logo-url">Logo (URL ou import)</Label>
-                        <Input
-                          id="logo-url"
-                          value={formValues.logoUrl}
-                          onChange={handleFieldChange("logoUrl")}
-                          placeholder="/proxizen-logo.svg"
-                        />
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageUpload("logoUrl")}
-                        />
-                      </div>
-                      <div className="space-y-3">
-                        <Label htmlFor="hero-image-url">Image hero (URL ou import)</Label>
-                        <Input
-                          id="hero-image-url"
-                          value={formValues.heroImageUrl}
-                          onChange={handleFieldChange("heroImageUrl")}
-                          placeholder="https://..."
-                        />
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageUpload("heroImageUrl")}
-                        />
-                      </div>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Pour garder de bonnes performances, utilisez des images
-                      optimisees (moins de 2.5 Mo).
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Button type="submit" className="sm:w-auto">
-                      Enregistrer les changements
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={handleResetDefaults}
-                    >
-                      Restaurer les valeurs par defaut
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      className="sm:ml-auto"
-                      onClick={handleLogout}
-                    >
-                      Se deconnecter
-                    </Button>
-                  </div>
-                </form>
+              <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                <Button type="button" variant="outline" onClick={refreshDashboard}>
+                  Actualiser les donnees
+                </Button>
+                <Button type="button" variant="ghost" onClick={handleLogout}>
+                  Se deconnecter
+                </Button>
               </div>
 
-              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 space-y-4">
-                <h3 className="font-heading font-bold text-primary">Apercu rapide</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-                      Logo actuel
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-card border rounded-xl p-5">
+                  <p className="text-sm text-muted-foreground">Vues total site</p>
+                  <p className="text-3xl font-heading font-bold mt-2">
+                    {metrics.totalPageViews}
+                  </p>
+                </div>
+                <div className="bg-card border rounded-xl p-5">
+                  <p className="text-sm text-muted-foreground">Sessions uniques</p>
+                  <p className="text-3xl font-heading font-bold mt-2">
+                    {metrics.uniqueSessions}
+                  </p>
+                </div>
+                <div className="bg-card border rounded-xl p-5">
+                  <p className="text-sm text-muted-foreground">Clics Calendly</p>
+                  <p className="text-3xl font-heading font-bold mt-2">
+                    {metrics.calendlyClicks}
+                  </p>
+                </div>
+                <div className="bg-card border rounded-xl p-5">
+                  <p className="text-sm text-muted-foreground">Demandes recues</p>
+                  <p className="text-3xl font-heading font-bold mt-2">
+                    {metrics.contactSubmissions}
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-card border rounded-xl p-6 space-y-4">
+                <h2 className="text-xl font-heading font-bold">Prises de rendez-vous</h2>
+                <p className="text-sm text-muted-foreground">
+                  Pour voir le detail des rendez-vous confirmes, ouvrez votre
+                  dashboard Calendly.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button asChild>
+                    <a href={CALENDLY_DASHBOARD_URL} target="_blank" rel="noreferrer">
+                      Voir mes rendez-vous Calendly
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <a href={settings.calendlyUrl} target="_blank" rel="noreferrer">
+                      Ouvrir la page publique de prise de rendez-vous
+                    </a>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-card border rounded-xl p-6">
+                  <h3 className="font-heading font-bold mb-4">Pages les plus vues</h3>
+                  {topPages.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">
+                      Aucune visite enregistree pour le moment.
                     </p>
-                    <div className="bg-background border rounded-lg p-3">
-                      <img
-                        src={settings.logoUrl}
-                        alt="Logo actuel"
-                        className="h-10 w-auto"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
-                      Hero actuelle
+                  ) : (
+                    <ul className="space-y-2">
+                      {topPages.map(([path, count]) => (
+                        <li key={path} className="flex justify-between gap-4 text-sm">
+                          <span className="truncate">{path}</span>
+                          <span className="font-semibold">{count}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div className="bg-card border rounded-xl p-6">
+                  <h3 className="font-heading font-bold mb-4">
+                    Sources des clics Calendly
+                  </h3>
+                  {calendlySources.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">
+                      Aucun clic Calendly enregistre pour le moment.
                     </p>
-                    <div className="bg-background border rounded-lg p-3">
-                      <img
-                        src={settings.heroImageUrl || "/placeholder.svg"}
-                        alt="Hero actuelle"
-                        className="h-16 w-full object-cover rounded"
-                      />
-                    </div>
+                  ) : (
+                    <ul className="space-y-2">
+                      {calendlySources.map(([source, count]) => (
+                        <li key={source} className="flex justify-between gap-4 text-sm">
+                          <span className="truncate">{source}</span>
+                          <span className="font-semibold">{count}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+
+              <div className="bg-card border rounded-xl p-6 space-y-4">
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+                  <h2 className="text-xl font-heading font-bold">Demandes clients</h2>
+                  <div className="flex gap-2">
+                    <Button type="button" variant="outline" onClick={handleExportRequests}>
+                      Export CSV
+                    </Button>
+                    <Button type="button" variant="ghost" onClick={handleClearRequests}>
+                      Vider
+                    </Button>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Email public:{" "}
-                  <a className="underline" href={`mailto:${settings.contactEmail}`}>
-                    {settings.contactEmail}
-                  </a>
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Calendly:{" "}
-                  <a className="underline" href={settings.calendlyUrl} target="_blank" rel="noreferrer">
-                    {settings.calendlyUrl}
-                  </a>
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Ce back-office fonctionne comme un CMS leger: les changements
-                  sont sauvegardes dans le navigateur connecte.
-                </p>
+
+                {requests.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">
+                    Aucune demande recue via le formulaire pour le moment.
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {requests.map((request) => (
+                      <article
+                        key={request.id}
+                        className="border rounded-lg p-4 bg-background/50"
+                      >
+                        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
+                          <div>
+                            <h3 className="font-semibold">{request.name || "Sans nom"}</h3>
+                            <p className="text-xs text-muted-foreground">
+                              {request.company || "Entreprise non renseignee"}
+                            </p>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {formatDate(request.createdAt)}
+                          </p>
+                        </div>
+                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                          <a className="underline" href={`mailto:${request.email}`}>
+                            {request.email}
+                          </a>
+                          {request.phone ? (
+                            <a className="underline" href={`tel:${request.phone}`}>
+                              {request.phone}
+                            </a>
+                          ) : null}
+                        </div>
+                        <p className="mt-3 text-sm whitespace-pre-wrap leading-relaxed">
+                          {request.message || "Aucun message"}
+                        </p>
+                      </article>
+                    ))}
+                  </div>
+                )}
               </div>
+
+              <p className="text-xs text-muted-foreground">
+                Note: ces statistiques sont locales au site et au navigateur.
+                Pour des statistiques globales avancees, ajoutez aussi Vercel
+                Analytics ou GA4.
+              </p>
             </div>
           )}
         </div>

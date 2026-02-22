@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
+import { trackCalendlyClick } from "@/lib/site-insights";
 
 const navLinks = [
   { label: "Accueil", path: "/" },
@@ -76,7 +77,12 @@ const Header = () => {
             asChild
             className={scrolled ? "" : "bg-accent hover:bg-accent/90 text-accent-foreground"}
           >
-            <a href={settings.calendlyUrl} target="_blank" rel="noreferrer">
+            <a
+              href={settings.calendlyUrl}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackCalendlyClick("header-desktop")}
+            >
               Demander un échange
             </a>
           </Button>
@@ -125,7 +131,10 @@ const Header = () => {
                     href={settings.calendlyUrl}
                     target="_blank"
                     rel="noreferrer"
-                    onClick={() => setMobileOpen(false)}
+                    onClick={() => {
+                      trackCalendlyClick("header-mobile");
+                      setMobileOpen(false);
+                    }}
                   >
                     Demander un échange
                   </a>

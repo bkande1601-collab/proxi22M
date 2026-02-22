@@ -8,15 +8,27 @@ import { Mail, Phone, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Layout from "@/components/Layout";
 import { useSiteSettings } from "@/components/SiteSettingsProvider";
+import { addContactRequest } from "@/lib/site-insights";
 
 const Contact = () => {
   const { toast } = useToast();
   const { settings } = useSiteSettings();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLoading(true);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    addContactRequest({
+      name: String(formData.get("name") ?? ""),
+      company: String(formData.get("company") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      message: String(formData.get("message") ?? ""),
+    });
+
     // Simulate submission
     setTimeout(() => {
       setLoading(false);
@@ -24,7 +36,7 @@ const Contact = () => {
         title: "Message envoyé !",
         description: "Nous vous répondrons dans les meilleurs délais.",
       });
-      (e.target as HTMLFormElement).reset();
+      form.reset();
     }, 1000);
   };
 
