@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npm ci --prefix \"zen-btp-builder-main 2\"",
+  "buildCommand": "npm run build --prefix \"zen-btp-builder-main 2\"",
+  "outputDirectory": "zen-btp-builder-main 2/dist",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
