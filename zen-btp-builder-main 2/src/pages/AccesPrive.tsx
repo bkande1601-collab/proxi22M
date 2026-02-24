@@ -21,6 +21,66 @@ const OWNER_EMAIL = "proxizenbtp@gmail.com";
 const DEFAULT_PRIVATE_PASSWORD = "ProxizenBtp2026!";
 const CALENDLY_DASHBOARD_URL = "https://calendly.com/app/scheduled_events";
 
+const BRAND_TYPOGRAPHY = [
+  {
+    label: "Titres",
+    className: "font-heading",
+    family: "Montserrat",
+    usage: "H1, H2, H3, boutons et elements de mise en avant",
+  },
+  {
+    label: "Texte courant",
+    className: "font-body",
+    family: "Open Sans",
+    usage: "Paragraphes, descriptions, contenus du dashboard",
+  },
+];
+
+const BRAND_COLORS = [
+  {
+    name: "Primary",
+    token: "--primary",
+    hsl: "163 28% 34%",
+    hex: "#3E6F61",
+    preview: "hsl(163 28% 34%)",
+  },
+  {
+    name: "Accent",
+    token: "--accent",
+    hsl: "158 22% 48%",
+    hex: "#5F9582",
+    preview: "hsl(158 22% 48%)",
+  },
+  {
+    name: "Background",
+    token: "--background",
+    hsl: "48 24% 96%",
+    hex: "#F7F6F2",
+    preview: "hsl(48 24% 96%)",
+  },
+  {
+    name: "Foreground",
+    token: "--foreground",
+    hsl: "200 10% 15%",
+    hex: "#22282A",
+    preview: "hsl(200 10% 15%)",
+  },
+  {
+    name: "Secondary",
+    token: "--secondary",
+    hsl: "40 35% 88%",
+    hex: "#EBE4D6",
+    preview: "hsl(40 35% 88%)",
+  },
+  {
+    name: "BTP Gold",
+    token: "--btp-gold",
+    hsl: "40 60% 55%",
+    hex: "#D1A347",
+    preview: "hsl(40 60% 55%)",
+  },
+];
+
 const formatDate = (isoDate: string) => {
   try {
     return new Date(isoDate).toLocaleString("fr-FR", {
@@ -311,6 +371,60 @@ const AccesPrive = () => {
                   <p className="text-3xl font-heading font-bold mt-2">
                     {metrics.contactSubmissions}
                   </p>
+                </div>
+              </div>
+
+              <div className="bg-card border rounded-xl p-6 space-y-5">
+                <h2 className="text-xl font-heading font-bold">
+                  Charte graphique ProxiZen BTP
+                </h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                      Typographie
+                    </p>
+                    <div className="space-y-3">
+                      {BRAND_TYPOGRAPHY.map((font) => (
+                        <div
+                          key={font.label}
+                          className="rounded-lg border border-border/60 bg-background p-4"
+                        >
+                          <p className={`text-lg ${font.className}`}>
+                            {font.label} - {font.family}
+                          </p>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {font.usage}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                      Palette couleurs (exemple)
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {BRAND_COLORS.map((color) => (
+                        <div
+                          key={color.token}
+                          className="rounded-lg border border-border/60 bg-background p-3 space-y-2"
+                        >
+                          <div
+                            className="h-10 w-full rounded-md border border-black/10"
+                            style={{ backgroundColor: color.preview }}
+                            aria-label={`${color.name} ${color.hex}`}
+                          />
+                          <p className="text-sm font-medium">{color.name}</p>
+                          <p className="text-xs text-muted-foreground">
+                            Token: {color.token}
+                          </p>
+                          <p className="text-xs text-muted-foreground">HSL: {color.hsl}</p>
+                          <p className="text-xs text-muted-foreground">HEX: {color.hex}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 
