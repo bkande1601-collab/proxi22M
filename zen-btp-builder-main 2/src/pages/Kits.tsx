@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  BadgeEuro,
   CheckCircle2,
   ClipboardList,
   CreditCard,
@@ -36,22 +35,10 @@ const stagger = {
 };
 
 const checkoutLinks = {
-  kit1: {
-    stripe: "",
-    paypal: "",
-  },
-  kit2: {
-    stripe: "",
-    paypal: "",
-  },
-  kit3: {
-    stripe: "",
-    paypal: "",
-  },
-  pack: {
-    stripe: "",
-    paypal: "",
-  },
+  kit1: "",
+  kit2: "",
+  kit3: "",
+  pack: "",
 };
 
 const kits = [
@@ -126,46 +113,28 @@ const supportLevels = [
   "Gestion complète de votre administratif selon le volume et le niveau de suivi souhaité",
 ];
 
-const paymentProviders = [
-  { key: "stripe", label: "Stripe", icon: CreditCard },
-  { key: "paypal", label: "PayPal", icon: BadgeEuro },
-] as const;
-
 type CheckoutKey = keyof typeof checkoutLinks;
 
-const getCheckoutHref = (itemId: CheckoutKey, provider: "stripe" | "paypal") =>
-  checkoutLinks[itemId][provider] || "/contact";
+const CheckoutButton = ({ itemId }: { itemId: CheckoutKey }) => {
+  const href = checkoutLinks[itemId] || "/contact";
+  const isLive = href !== "/contact";
 
-const CheckoutButtons = ({ itemId }: { itemId: CheckoutKey }) => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-    {paymentProviders.map((provider) => {
-      const href = getCheckoutHref(itemId, provider.key);
-      const isLive = href !== "/contact";
-      const Icon = provider.icon;
-
-      return (
-        <Button
-          key={provider.key}
-          asChild
-          variant={provider.key === "stripe" ? "default" : "outline"}
-          className="h-auto min-h-11 whitespace-normal px-4 py-3"
-        >
-          {isLive ? (
-            <a href={href} target="_blank" rel="noreferrer">
-              <Icon className="mr-2" size={17} />
-              Payer avec {provider.label}
-            </a>
-          ) : (
-            <Link to="/contact">
-              <Icon className="mr-2" size={17} />
-              Demander le lien {provider.label}
-            </Link>
-          )}
-        </Button>
-      );
-    })}
-  </div>
-);
+  return (
+    <Button asChild className="w-full h-auto min-h-11 whitespace-normal px-4 py-3">
+      {isLive ? (
+        <a href={href} target="_blank" rel="noreferrer">
+          <CreditCard className="mr-2" size={17} />
+          Payer avec Stripe
+        </a>
+      ) : (
+        <Link to="/contact">
+          <CreditCard className="mr-2" size={17} />
+          Demander le lien Stripe
+        </Link>
+      )}
+    </Button>
+  );
+};
 
 const Kits = () => {
   const { settings } = useSiteSettings();
@@ -375,7 +344,7 @@ const Kits = () => {
                     </div>
 
                     <div className="mt-auto">
-                      <CheckoutButtons itemId={kit.id} />
+                      <CheckoutButton itemId={kit.id} />
                     </div>
                   </div>
                 </motion.article>
@@ -432,7 +401,7 @@ const Kits = () => {
                 <p className="text-sm text-muted-foreground mb-6">
                   Au lieu de 357 EUR si les kits sont achetés séparément.
                 </p>
-                <CheckoutButtons itemId="pack" />
+                <CheckoutButton itemId="pack" />
               </div>
             </div>
           </motion.div>
