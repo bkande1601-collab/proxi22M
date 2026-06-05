@@ -1,0 +1,58 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 900 230"
+  role="img"
+  aria-labelledby="proxizenLogoTitle proxizenLogoDesc"
+>
+  <title id="proxizenLogoTitle">Logo ProxiZen BTP</title>
+  <desc id="proxizenLogoDesc">Symbole de maison et texte ProxiZen BTP</desc>
+  <defs>
+    <linearGradient id="proxizenWordmark" x1="300" y1="70" x2="760" y2="145" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#213b42" />
+      <stop offset="0.55" stop-color="#24434a" />
+      <stop offset="1" stop-color="#5a8f80" />
+    </linearGradient>
+  </defs>
+
+  <!-- House icon -->
+  <path
+    d="M55 125V78L135 8L215 78V125"
+    fill="none"
+    stroke="#213b42"
+    stroke-width="20"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M55 160C79 135 108 123 135 123C162 123 191 135 215 160"
+    fill="none"
+    stroke="#5f8f84"
+    stroke-width="20"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Wordmark -->
+  <text
+    x="265"
+    y="117"
+    fill="url(#proxizenWordmark)"
+    font-family="Montserrat, Arial, sans-serif"
+    font-size="108"
+    font-weight="700"
+    letter-spacing="-1"
+  >
+    ProxiZen
+  </text>
+  <text
+    x="268"
+    y="187"
+    fill="#213b42"
+    font-family="Montserrat, Arial, sans-serif"
+    font-size="62"
+    font-weight="600"
+    letter-spacing="10"
+  >
+    BTP
+  </text>
+</svg>

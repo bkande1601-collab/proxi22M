@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /acces-prive/
+Disallow: /api/
+
+Sitemap: https://proxizenbtp.fr/sitemap.xml

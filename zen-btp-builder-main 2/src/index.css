@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 48 24% 96%;
+    --foreground: 200 10% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 200 10% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 10% 15%;
+
+    --primary: 163 28% 34%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 35% 88%;
+    --secondary-foreground: 200 10% 15%;
+
+    --muted: 48 15% 92%;
+    --muted-foreground: 200 5% 45%;
+
+    --accent: 158 22% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 48 10% 88%;
+    --input: 48 10% 85%;
+    --ring: 163 28% 34%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 163 28% 34%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 158 17% 90%;
+    --sidebar-accent-foreground: 200 10% 15%;
+    --sidebar-border: 48 10% 85%;
+    --sidebar-ring: 163 28% 34%;
+
+    /* Custom tokens */
+    --btp-green: 163 28% 34%;
+    --btp-green-light: 158 17% 58%;
+    --btp-cream: 48 24% 96%;
+    --btp-dark: 200 10% 15%;
+    --btp-warm: 40 20% 92%;
+    --btp-gold: 40 60% 55%;
+  }
+
+  .dark {
+    --background: 200 10% 8%;
+    --foreground: 48 24% 95%;
+    --card: 200 10% 11%;
+    --card-foreground: 48 24% 95%;
+    --popover: 200 10% 11%;
+    --popover-foreground: 48 24% 95%;
+    --primary: 163 28% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 20% 20%;
+    --secondary-foreground: 48 24% 95%;
+    --muted: 200 10% 16%;
+    --muted-foreground: 48 10% 65%;
+    --accent: 158 22% 42%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 200 10% 18%;
+    --input: 200 10% 18%;
+    --ring: 163 28% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .section-padding {
+    @apply py-20 md:py-28;
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl shadow-sm;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
