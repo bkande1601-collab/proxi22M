@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
+  BadgeEuro,
   CheckCircle2,
   ClipboardList,
   CreditCard,
@@ -35,10 +36,10 @@ const stagger = {
 };
 
 const checkoutLinks = {
-  kit1: "",
-  kit2: "",
-  kit3: "",
-  pack: "",
+  kit1: "https://buy.stripe.com/28EbJ18yxdfh5aU0tB87K04",
+  kit2: "https://buy.stripe.com/cNifZh2a98Z1dHq2BJ87K01",
+  kit3: "https://buy.stripe.com/eVq4gz8yxfnpdHq90787K05",
+  pack: "https://buy.stripe.com/3cI6oH021fnpeLu0tB87K06",
 };
 
 const kits = [
@@ -47,7 +48,7 @@ const kits = [
     icon: FileSpreadsheet,
     title: "Kit Pilotage Administratif BTP",
     subtitle: "Pour reprendre le contrôle sur les devis, factures, paiements et marges chantier.",
-    price: "149 EUR",
+    price: "79 EUR",
     badge: "Le plus complet",
     image: "/kits-assets/kit-1-dashboard.png",
     includes: [
@@ -68,7 +69,7 @@ const kits = [
     icon: FileText,
     title: "Kit Préparation Facturation Électronique BTP",
     subtitle: "Pour anticiper la réforme et ranger vos informations clients, fournisseurs et documents.",
-    price: "79 EUR",
+    price: "49 EUR",
     badge: "Réforme 2026",
     image: "/kits-assets/kit-2-dashboard.png",
     includes: [
@@ -89,7 +90,7 @@ const kits = [
     icon: Hammer,
     title: "Kit Gestion Chantier / Suivi Entreprise",
     subtitle: "Pour organiser les chantiers, les tâches, les commandes matériaux, le SAV et le suivi client.",
-    price: "129 EUR",
+    price: "59 EUR",
     badge: "Très terrain",
     image: "/kits-assets/kit-3-dashboard.png",
     includes: [
@@ -396,10 +397,10 @@ const Kits = () => {
                   Prix du pack
                 </p>
                 <p className="text-4xl font-heading font-extrabold mb-2">
-                  249 EUR
+                  149 EUR
                 </p>
                 <p className="text-sm text-muted-foreground mb-6">
-                  Au lieu de 357 EUR si les kits sont achetés séparément.
+                  Au lieu de 187 EUR si les kits sont achetés séparément.
                 </p>
                 <CheckoutButton itemId="pack" />
               </div>
