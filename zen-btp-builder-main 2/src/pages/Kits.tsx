@@ -427,7 +427,7 @@ const Kits = () => {
               </h2>
               <p className="text-muted-foreground leading-relaxed">
                 Vous souhaitez gagner du temps ou déléguer votre administratif ?
-                Je propose également un accompagnement mensuel à partir de 650
+                Je propose également un accompagnement mensuel à partir de 550
                 EUR / mois, adapté à votre niveau de suivi : mise en place,
                 pilotage régulier ou gestion complète de votre administratif.
               </p>
@@ -448,8 +448,9 @@ const Kits = () => {
                 ))}
               </ul>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                Pour une gestion plus complète, une offre à 950 EUR / mois peut
-                être proposée selon le volume de factures, les relances, les
+                Pour une gestion plus complète, une offre Premium à partir de
+                950 EUR / mois peut être proposée selon le volume de factures,
+                les relances, les
                 documents à traiter et le niveau de réactivité attendu.
               </p>
               <Button asChild size="lg" className="w-full">

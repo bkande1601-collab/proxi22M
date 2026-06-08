@@ -24,7 +24,7 @@ const offers = [
   {
     title: "ESSENTIELLE",
     subtitle: "Pour artisans et petites structures BTP",
-    price: "À partir de 650 EUR / mois",
+    price: "À partir de 550 EUR / mois",
     services: [
       "Devis et facturation",
       "Organisation et classement administratif",
@@ -41,7 +41,7 @@ const offers = [
     title: "CONFORT (Recommandée)",
     subtitle:
       "Offre recommandée pour un suivi fluide avec le cabinet comptable",
-    price: "Suivi renforcé selon volume",
+    price: "À partir de 650 EUR / mois",
     services: [
       "Offre Essentielle incluse",
       "Centralisation complète des pièces comptables",
@@ -58,7 +58,7 @@ const offers = [
     title: "PREMIUM",
     subtitle:
       "Cette offre s’adresse aux TPE/PME du BTP ayant un volume administratif important ou qui souhaite un suivi renforcé.",
-    price: "À partir de 950 EUR / mois selon volume",
+    price: "À partir de 950 EUR / mois",
     services: [
       "Offre Confort incluse",
       "Suivi administratif renforcé",
@@ -96,7 +96,7 @@ const Offres = () => {
             <p className="text-base md:text-lg text-primary-foreground/85 max-w-3xl mx-auto leading-relaxed">
               Chaque entreprise ayant des besoins différents, nos
               accompagnements sont personnalisés, avec une offre mensuelle à
-              partir de 650 EUR selon le niveau de suivi souhaité.
+              partir de 550 EUR selon le niveau de suivi souhaité.
             </p>
           </motion.div>
         </div>
@@ -230,15 +230,16 @@ const Offres = () => {
               Note tarifaire :
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Les accompagnements mensuels démarrent à 650 EUR / mois et sont
-              ajustés selon le volume de factures, la taille de l’entreprise,
-              les relances, la préparation à la facturation électronique et la
-              complexité administrative.
+              Les accompagnements mensuels démarrent à 550 EUR / mois pour
+              l’offre Essentielle et sont ajustés selon le volume de factures,
+              la taille de l’entreprise, les relances, la préparation à la
+              facturation électronique et la complexité administrative.
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed mt-3">
-              Une gestion administrative plus complète peut être proposée à
-              partir de 950 EUR / mois selon le niveau de suivi souhaité. Un
-              devis personnalisé est établi après un premier échange.
+              L’offre Confort démarre à 650 EUR / mois. Une gestion
+              administrative plus complète peut être proposée à partir de 950
+              EUR / mois selon le niveau de suivi souhaité. Un devis
+              personnalisé est établi après un premier échange.
             </p>
           </motion.div>
         </div>
