@@ -82,7 +82,7 @@ const kitsPreview = [
   {
     icon: Handshake,
     title: "Accompagnement mensuel",
-    à’à la gestion complète de votre administratif.",
+    desc: "Un suivi à partir de 550 EUR / mois selon le niveau souhaité, jusqu’à la gestion complète de votre administratif.",
     to: "/offres",
     cta: "Voir les offres",
   },
